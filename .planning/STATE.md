@@ -11,28 +11,28 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 1 of 5 (Foundation & Core Combat)
-Plan: 4 of 5 in current phase
+Plan: 2 of 5 in current phase
 Status: In progress
-Last activity: 2026-02-07 — Completed 01-05-PLAN.md (Combat Loop Upgrade)
+Last activity: 2026-02-07 — Completed 01-02-PLAN.md (D20 Dice Library Integration)
 
-Progress: [████████░░] 80%
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 4 min
-- Total execution time: 0.3 hours
+- Total plans completed: 2
+- Average duration: 5.5 min
+- Total execution time: 0.2 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1     | 4     | 16min | 4min     |
+| 1     | 2     | 11min | 5.5min   |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6min), 01-02 (4min), 01-03 (4min), 01-05 (2min)
-- Trend: Accelerating (foundation complete, smaller gap-closure tasks)
+- Last 5 plans: 01-01 (6min), 01-02 (5min)
+- Trend: Establishing baseline
 
 *Updated after each plan completion*
 
@@ -53,10 +53,9 @@ Recent decisions affecting current work:
 - **[01-01]** Chess notation for coordinates: Human-readable (A1, B2), easy to parse, natural for spatial reasoning
 - **[01-01]** Immutable combat state: Copy-on-write prevents accidental mutation, enables time-travel debugging
 - **[01-01]** python-frontmatter for markdown: Standard library for YAML frontmatter parsing
-- **[01-05]** Roll and log initiative at combat start: Provides visibility into initiative rolls
-- **[01-05]** Multiattack iteration pattern: Process all attacks in action.attacks for proper Multiattack support
-- **[01-05]** Damage modifier flow: Apply resistance/immunity/vulnerability before HP reduction
-- **[01-05]** Heuristic agent prefers Multiattack: Selects optimal action for maximum damage output
+- **[01-02]** Advantage/disadvantage as ternary state machine: ANY advantage + ANY disadvantage = complete cancellation (NORMAL)
+- **[01-02]** D20 library for all rolls: Industry-standard dice library with 2d20kh1/kl1 notation
+- **[01-02]** Backward compatibility maintained: Rules functions accept both AdvantageState and True/False/None
 
 ### Pending Todos
 
@@ -78,6 +77,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07T22:20:04Z
-Stopped at: Completed 01-05-PLAN.md - Combat Loop Upgrade
+Last session: 2026-02-07T23:22:32Z
+Stopped at: Completed 01-02-PLAN.md - D20 Dice Library Integration
 Resume file: None
