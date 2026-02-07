@@ -1,5 +1,6 @@
 import random
 import re
+from src.domain.dice import AdvantageState, roll_d20, roll_damage
 
 
 class AttackResult:
@@ -39,24 +40,28 @@ def make_attack_roll(bonus, ac, advantage=None):
     Args:
         bonus: Attack bonus to add to the roll
         ac: Target's Armor Class
-        advantage: None for normal, True for advantage, False for disadvantage
+        advantage: AdvantageState, or None/True/False for backward compatibility
+            - AdvantageState.ADVANTAGE or True: advantage
+            - AdvantageState.DISADVANTAGE or False: disadvantage
+            - AdvantageState.NORMAL or None: normal roll
 
     Returns:
         AttackResult with hit/miss, critical, and description
     """
+    # Handle backward compatibility with True/False/None
     if advantage is True:
-        # Advantage: roll twice, take higher
-        roll1 = random.randint(1, 20)
-        roll2 = random.randint(1, 20)
-        natural_roll = max(roll1, roll2)
+        advantage_state = AdvantageState.ADVANTAGE
     elif advantage is False:
-        # Disadvantage: roll twice, take lower
-        roll1 = random.randint(1, 20)
-        roll2 = random.randint(1, 20)
-        natural_roll = min(roll1, roll2)
+        advantage_state = AdvantageState.DISADVANTAGE
+    elif advantage is None:
+        advantage_state = AdvantageState.NORMAL
+    elif isinstance(advantage, AdvantageState):
+        advantage_state = advantage
     else:
-        # Normal roll
-        natural_roll = random.randint(1, 20)
+        advantage_state = AdvantageState.NORMAL
+
+    # Use dice module for d20 roll
+    natural_roll, _ = roll_d20(advantage_state)
 
     # Natural 20 is always a critical hit
     is_critical = (natural_roll == 20)
@@ -97,7 +102,7 @@ def roll_dice(num_dice, die_size):
 
 def roll_damage_for_attack(damage_dice_str, is_critical=False):
     """
-    Roll damage dice for an attack.
+    Roll damage dice for an attack using d20 library.
 
     Args:
         damage_dice_str: Dice expression like "1d8+3"
@@ -106,18 +111,28 @@ def roll_damage_for_attack(damage_dice_str, is_critical=False):
     Returns:
         int: Total damage rolled
     """
-    num_dice, die_size, modifier = parse_dice_expression(damage_dice_str)
-
     if is_critical:
         # Critical hits double the dice, not the modifier
-        num_dice *= 2
+        # Parse to extract dice and modifier, then reconstruct
+        num_dice, die_size, modifier = parse_dice_expression(damage_dice_str)
 
-    if num_dice > 0 and die_size > 0:
-        dice_total = roll_dice(num_dice, die_size)
-        return dice_total + modifier
+        if num_dice > 0 and die_size > 0:
+            # Double the dice for critical
+            crit_dice_expr = f"{num_dice * 2}d{die_size}"
+            if modifier > 0:
+                crit_dice_expr += f"+{modifier}"
+            elif modifier < 0:
+                crit_dice_expr += f"{modifier}"
+
+            damage_total, _ = roll_damage(crit_dice_expr)
+            return damage_total
+        else:
+            # Flat damage only (no dice to double)
+            return modifier
     else:
-        # Flat damage only (no dice)
-        return modifier
+        # Normal damage roll
+        damage_total, _ = roll_damage(damage_dice_str)
+        return damage_total
 
 
 def apply_damage_modifiers(damage, damage_type, creature):
@@ -218,52 +233,46 @@ def make_death_save(creature):
         creature: Creature making the death save
 
     Returns:
-        Updated creature (mutates in place for now)
+        DeathSaveResult with updated death save state
+        Note: Also mutates creature in place (for backward compatibility)
     """
-    roll = random.randint(1, 20)
+    from src.domain.creature import DeathSaves
 
-    # Track death saves (initialize if not present)
-    if not hasattr(creature, 'death_save_successes'):
-        creature.death_save_successes = 0
-    if not hasattr(creature, 'death_save_failures'):
-        creature.death_save_failures = 0
+    # Use dice module for d20 roll (death saves are always normal, no advantage)
+    roll, _ = roll_d20(AdvantageState.NORMAL)
 
-    successes = creature.death_save_successes
-    failures = creature.death_save_failures
+    # Get current death saves from Pydantic model
+    current_saves = creature.death_saves
+    successes = current_saves.successes
+    failures = current_saves.failures
 
     if roll == 20:
         # Natural 20: Regain 1 HP, become conscious
         creature.current_hp = 1
-        creature.stable = True
-        creature.death_save_successes = 0
-        creature.death_save_failures = 0
+        creature.death_saves = DeathSaves(successes=0, failures=0, stable=True)
         result = DeathSaveResult(roll, 0, 0, is_stable=True, is_conscious=True)
     elif roll == 1:
         # Natural 1: 2 failures
         failures += 2
-        creature.death_save_failures = failures
-        if failures >= 3:
-            # Dead
-            creature.stable = False
-        result = DeathSaveResult(roll, successes, failures, is_stable=False, is_conscious=False)
+        is_stable = failures < 3
+        creature.death_saves = DeathSaves(successes=successes, failures=failures, stable=is_stable)
+        result = DeathSaveResult(roll, successes, failures, is_stable=is_stable, is_conscious=False)
     elif roll >= 10:
         # Success
         successes += 1
-        creature.death_save_successes = successes
         if successes >= 3:
             # Stabilized
-            creature.stable = True
-            creature.death_save_successes = 0
-            creature.death_save_failures = 0
-        result = DeathSaveResult(roll, successes, failures, is_stable=(successes >= 3), is_conscious=False)
+            creature.death_saves = DeathSaves(successes=0, failures=0, stable=True)
+            result = DeathSaveResult(roll, successes, failures, is_stable=True, is_conscious=False)
+        else:
+            creature.death_saves = DeathSaves(successes=successes, failures=failures, stable=False)
+            result = DeathSaveResult(roll, successes, failures, is_stable=False, is_conscious=False)
     else:
         # Failure
         failures += 1
-        creature.death_save_failures = failures
-        if failures >= 3:
-            # Dead
-            creature.stable = False
-        result = DeathSaveResult(roll, successes, failures, is_stable=False, is_conscious=False)
+        is_stable = failures < 3
+        creature.death_saves = DeathSaves(successes=successes, failures=failures, stable=is_stable)
+        result = DeathSaveResult(roll, successes, failures, is_stable=is_stable, is_conscious=False)
 
     return creature
 
@@ -291,21 +300,28 @@ def make_saving_throw(ability_modifier, dc, advantage=None):
     Args:
         ability_modifier: Ability modifier (e.g., Dex mod for Dex save)
         dc: Difficulty Class
-        advantage: None for normal, True for advantage, False for disadvantage
+        advantage: AdvantageState, or None/True/False for backward compatibility
+            - AdvantageState.ADVANTAGE or True: advantage
+            - AdvantageState.DISADVANTAGE or False: disadvantage
+            - AdvantageState.NORMAL or None: normal roll
 
     Returns:
         SavingThrowResult with success/failure and description
     """
+    # Handle backward compatibility with True/False/None
     if advantage is True:
-        roll1 = random.randint(1, 20)
-        roll2 = random.randint(1, 20)
-        roll = max(roll1, roll2)
+        advantage_state = AdvantageState.ADVANTAGE
     elif advantage is False:
-        roll1 = random.randint(1, 20)
-        roll2 = random.randint(1, 20)
-        roll = min(roll1, roll2)
+        advantage_state = AdvantageState.DISADVANTAGE
+    elif advantage is None:
+        advantage_state = AdvantageState.NORMAL
+    elif isinstance(advantage, AdvantageState):
+        advantage_state = advantage
     else:
-        roll = random.randint(1, 20)
+        advantage_state = AdvantageState.NORMAL
+
+    # Use dice module for d20 roll
+    roll, _ = roll_d20(advantage_state)
 
     total = roll + ability_modifier
     is_success = total >= dc
