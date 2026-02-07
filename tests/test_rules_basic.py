@@ -85,16 +85,15 @@ def test_critical_damage_doubles_dice():
 def test_resistance_halves_damage():
     """Test that resistance halves damage (rounded down)."""
     creature = Creature(
-        id="test",
         name="Test",
         team="enemy",
         position="A1",
-        max_hp=20,
+        hp_max=20,
         current_hp=20,
         ac=15,
         speed=30,
+        damage_resistances=["fire"],
     )
-    creature.damage_resistances = ["fire"]
 
     # 10 fire damage with resistance should be 5
     final_damage, modifier = apply_damage_modifiers(10, "fire", creature)
@@ -110,16 +109,15 @@ def test_resistance_halves_damage():
 def test_immunity_zeroes_damage():
     """Test that immunity reduces damage to 0."""
     creature = Creature(
-        id="test",
         name="Test",
         team="enemy",
         position="A1",
-        max_hp=20,
+        hp_max=20,
         current_hp=20,
         ac=15,
         speed=30,
+        damage_immunities=["poison"],
     )
-    creature.damage_immunities = ["poison"]
 
     final_damage, modifier = apply_damage_modifiers(100, "poison", creature)
     assert final_damage == 0
@@ -129,16 +127,15 @@ def test_immunity_zeroes_damage():
 def test_vulnerability_doubles_damage():
     """Test that vulnerability doubles damage."""
     creature = Creature(
-        id="test",
         name="Test",
         team="enemy",
         position="A1",
-        max_hp=20,
+        hp_max=20,
         current_hp=20,
         ac=15,
         speed=30,
+        damage_vulnerabilities=["cold"],
     )
-    creature.damage_vulnerabilities = ["cold"]
 
     final_damage, modifier = apply_damage_modifiers(10, "cold", creature)
     assert final_damage == 20
@@ -148,11 +145,10 @@ def test_vulnerability_doubles_damage():
 def test_apply_damage_reduces_hp():
     """Test that applying damage reduces HP correctly."""
     creature = Creature(
-        id="test",
         name="Test",
         team="enemy",
         position="A1",
-        max_hp=20,
+        hp_max=20,
         current_hp=20,
         ac=15,
         speed=30,
@@ -169,11 +165,10 @@ def test_apply_damage_reduces_hp():
 def test_hp_clamped_at_zero():
     """Test that HP doesn't go below zero."""
     creature = Creature(
-        id="test",
         name="Test",
         team="enemy",
         position="A1",
-        max_hp=10,
+        hp_max=10,
         current_hp=5,
         ac=15,
         speed=30,
