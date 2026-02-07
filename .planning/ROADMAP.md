@@ -34,10 +34,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Advantage/disadvantage resolves correctly as ternary state (multiple sources cancel completely)
   5. Combat ends when one side reaches 0 HP and winner is declared
 
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] TBD during phase planning
+- [ ] 01-01-PLAN.md -- Project setup, creature models, grid system, combat state, markdown parser
+- [ ] 01-02-PLAN.md -- Dice engine with advantage/disadvantage, rules engine (attacks, damage, saves, death saves)
+- [ ] 01-03-PLAN.md -- Heuristic agent, combat simulator loop, logger, CLI entry point
 
 ### Phase 2: Creature Data & Monte Carlo Engine
 **Goal**: DM can run 1000+ simulations using SRD monsters in under 10 minutes, see win percentages with confidence intervals, and difficulty ratings.
@@ -49,7 +51,7 @@ Plans:
 **Success Criteria** (what must be TRUE):
   1. DM can specify "goblin" and system auto-fetches stats from dnd5eapi.co without manual entry
   2. DM can override SRD stats in markdown file and system uses custom values
-  3. Batch runner executes 1000 simulations and reports win rate (e.g., "Party wins: 73% ± 4%")
+  3. Batch runner executes 1000 simulations and reports win rate (e.g., "Party wins: 73% +/- 4%")
   4. Results show average combat duration in rounds for wins vs losses
   5. Damage breakdown attributes damage to each creature and ability type
   6. Results map to D&D difficulty labels (Easy/Medium/Hard/Deadly)
@@ -107,7 +109,7 @@ Plans:
 
 **Success Criteria** (what must be TRUE):
   1. Spellcaster uses spell slot when casting, cannot cast when all slots depleted
-  2. Casting second concentration spell automatically ends first (Bless → Haste ends Bless)
+  2. Casting second concentration spell automatically ends first (Bless -> Haste ends Bless)
   3. Taking damage while concentrating triggers CON save, failure ends spell
   4. Prone condition gives advantage to melee attacks, disadvantage to ranged attacks
   5. DM can resume interrupted 1000-run batch from checkpoint without losing progress
@@ -120,11 +122,11 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Core Combat | 0/TBD | Not started | - |
+| 1. Foundation & Core Combat | 0/3 | Planning complete | - |
 | 2. Creature Data & Monte Carlo Engine | 0/TBD | Not started | - |
 | 3. LLM Tactical Agents | 0/TBD | Not started | - |
 | 4. Terminal UI & Advanced Combat | 0/TBD | Not started | - |
