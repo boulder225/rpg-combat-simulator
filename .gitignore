@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env/
+
+# Environment variables (API keys, etc.)
+.env
+.env.local
+.env.*.local
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and generated output
+*.log
+data/saved_games/
+
+# Cached rules data (from 5e-database)
+rules/
+
+# pytest / coverage
+.coverage
+htmlcov/
+.pytest_cache/
