@@ -11,28 +11,28 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 1 of 5 (Foundation & Core Combat)
-Plan: 3 of TBD in current phase
+Plan: 4 of TBD in current phase
 Status: In progress
-Last activity: 2026-02-07 — Roadmap created with 5 phases covering 46 requirements
+Last activity: 2026-02-07 — Completed 01-04-PLAN.md (Core Combat Rules & Logging)
 
-Progress: [██░░░░░░░░] 20%
+Progress: [███░░░░░░░] 30%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: — min
-- Total execution time: 0.0 hours
+- Total plans completed: 1
+- Average duration: 2 min
+- Total execution time: 0.04 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 1     | 1     | 2min  | 2min     |
 
 **Recent Trend:**
-- Last 5 plans: None yet
-- Trend: Not established
+- Last 5 plans: 01-04 (2min)
+- Trend: Establishing baseline
 
 *Updated after each plan completion*
 
@@ -49,6 +49,9 @@ Recent decisions affecting current work:
 - Manhattan distance: Good approximation for D&D 5ft-square movement
 - Strict LLM output format: Prevents hallucinated abilities, enables reliable parsing
 - Textual for TUI: Rich terminal UI framework with live updates
+- **[01-04]** Result objects with descriptions: AttackResult, DeathSaveResult, SavingThrowResult include human-readable descriptions for rich logging
+- **[01-04]** Damage modifier order: immunity → resistance → vulnerability per D&D 5e rules
+- **[01-04]** Death saves stored on creature: Successes/failures tracked directly on creature object for simple access
 
 ### Pending Todos
 
@@ -70,6 +73,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07
-Stopped at: Session resumed, proceeding to complete Phase 1 incomplete plans (starting 01-01)
+Last session: 2026-02-07T22:11:39Z
+Stopped at: Completed 01-04-PLAN.md - Core Combat Rules & Logging
 Resume file: None
