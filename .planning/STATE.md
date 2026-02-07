@@ -11,27 +11,27 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 1 of 5 (Foundation & Core Combat)
-Plan: 4 of TBD in current phase
+Plan: 1 of TBD in current phase
 Status: In progress
-Last activity: 2026-02-07 — Completed 01-04-PLAN.md (Core Combat Rules & Logging)
+Last activity: 2026-02-07 — Completed 01-01-PLAN.md (Foundation Models & Grid System)
 
-Progress: [███░░░░░░░] 30%
+Progress: [██░░░░░░░░] 20%
 
 ## Performance Metrics
 
 **Velocity:**
 - Total plans completed: 1
-- Average duration: 2 min
-- Total execution time: 0.04 hours
+- Average duration: 6 min
+- Total execution time: 0.1 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1     | 1     | 2min  | 2min     |
+| 1     | 1     | 6min  | 6min     |
 
 **Recent Trend:**
-- Last 5 plans: 01-04 (2min)
+- Last 5 plans: 01-01 (6min)
 - Trend: Establishing baseline
 
 *Updated after each plan completion*
@@ -49,9 +49,10 @@ Recent decisions affecting current work:
 - Manhattan distance: Good approximation for D&D 5ft-square movement
 - Strict LLM output format: Prevents hallucinated abilities, enables reliable parsing
 - Textual for TUI: Rich terminal UI framework with live updates
-- **[01-04]** Result objects with descriptions: AttackResult, DeathSaveResult, SavingThrowResult include human-readable descriptions for rich logging
-- **[01-04]** Damage modifier order: immunity → resistance → vulnerability per D&D 5e rules
-- **[01-04]** Death saves stored on creature: Successes/failures tracked directly on creature object for simple access
+- **[01-01]** Pydantic v2 for creature models: 17x faster than v1, excellent validation, computed fields
+- **[01-01]** Chess notation for coordinates: Human-readable (A1, B2), easy to parse, natural for spatial reasoning
+- **[01-01]** Immutable combat state: Copy-on-write prevents accidental mutation, enables time-travel debugging
+- **[01-01]** python-frontmatter for markdown: Standard library for YAML frontmatter parsing
 
 ### Pending Todos
 
@@ -73,6 +74,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07T22:11:39Z
-Stopped at: Completed 01-04-PLAN.md - Core Combat Rules & Logging
+Last session: 2026-02-07T22:14:39Z
+Stopped at: Completed 01-01-PLAN.md - Foundation Models & Grid System
 Resume file: None
