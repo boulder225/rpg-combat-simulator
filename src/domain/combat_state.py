@@ -1,4 +1,24 @@
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
+
+
+@dataclass
+class Attack:
+    name: str
+    attack_bonus: int
+    damage_dice: str
+    damage_type: str
+    reach: int = 0
+    range: int = 0
+
+    @property
+    def range_feet(self) -> int:
+        return self.reach if self.reach else self.range
+
+
+@dataclass
+class Action:
+    name: str
+    attacks: list[Attack] = field(default_factory=list)
 
 
 @dataclass
@@ -11,7 +31,7 @@ class Creature:
     current_hp: int
     ac: int
     speed: int
-    actions: list
+    actions: list[Action] = field(default_factory=list)
     stable: bool = False
 
 
