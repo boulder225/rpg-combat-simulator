@@ -116,58 +116,65 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| COMBAT-01 | — | Pending |
-| COMBAT-02 | — | Pending |
-| COMBAT-03 | — | Pending |
-| COMBAT-04 | — | Pending |
-| COMBAT-05 | — | Pending |
-| COMBAT-06 | — | Pending |
-| COMBAT-07 | — | Pending |
-| COMBAT-08 | — | Pending |
-| COMBAT-09 | — | Pending |
-| COMBAT-10 | — | Pending |
-| COMBAT-11 | — | Pending |
-| COMBAT-12 | — | Pending |
-| GRID-01 | — | Pending |
-| GRID-02 | — | Pending |
-| GRID-03 | — | Pending |
-| GRID-04 | — | Pending |
-| GRID-05 | — | Pending |
-| GRID-06 | — | Pending |
-| CREATURE-01 | — | Pending |
-| CREATURE-02 | — | Pending |
-| CREATURE-03 | — | Pending |
-| CREATURE-04 | — | Pending |
-| AGENT-01 | — | Pending |
-| AGENT-02 | — | Pending |
-| AGENT-03 | — | Pending |
-| AGENT-04 | — | Pending |
-| AGENT-05 | — | Pending |
-| AGENT-06 | — | Pending |
-| SIM-01 | — | Pending |
-| SIM-02 | — | Pending |
-| SIM-03 | — | Pending |
-| SIM-04 | — | Pending |
-| SIM-05 | — | Pending |
-| SIM-06 | — | Pending |
-| LOG-01 | — | Pending |
-| LOG-02 | — | Pending |
-| LOG-03 | — | Pending |
-| TUI-01 | — | Pending |
-| TUI-02 | — | Pending |
-| TUI-03 | — | Pending |
-| TUI-04 | — | Pending |
-| SPELL-01 | — | Pending |
-| SPELL-02 | — | Pending |
-| SPELL-03 | — | Pending |
-| TERRAIN-01 | — | Pending |
-| CLI-01 | — | Pending |
+| COMBAT-01 | Phase 1 | Pending |
+| COMBAT-02 | Phase 1 | Pending |
+| COMBAT-03 | Phase 1 | Pending |
+| COMBAT-04 | Phase 1 | Pending |
+| COMBAT-05 | Phase 1 | Pending |
+| COMBAT-06 | Phase 1 | Pending |
+| COMBAT-07 | Phase 1 | Pending |
+| COMBAT-08 | Phase 1 | Pending |
+| COMBAT-09 | Phase 1 | Pending |
+| COMBAT-10 | Phase 1 | Pending |
+| COMBAT-11 | Phase 1 | Pending |
+| COMBAT-12 | Phase 1 | Pending |
+| GRID-01 | Phase 1 | Pending |
+| GRID-02 | Phase 1 | Pending |
+| GRID-03 | Phase 1 | Pending |
+| GRID-04 | Phase 4 | Pending |
+| GRID-05 | Phase 4 | Pending |
+| GRID-06 | Phase 4 | Pending |
+| CREATURE-01 | Phase 1 | Pending |
+| CREATURE-02 | Phase 1 | Pending |
+| CREATURE-03 | Phase 2 | Pending |
+| CREATURE-04 | Phase 2 | Pending |
+| AGENT-01 | Phase 1 | Pending |
+| AGENT-02 | Phase 3 | Pending |
+| AGENT-03 | Phase 3 | Pending |
+| AGENT-04 | Phase 3 | Pending |
+| AGENT-05 | Phase 3 | Pending |
+| AGENT-06 | Phase 3 | Pending |
+| SIM-01 | Phase 2 | Pending |
+| SIM-02 | Phase 2 | Pending |
+| SIM-03 | Phase 2 | Pending |
+| SIM-04 | Phase 2 | Pending |
+| SIM-05 | Phase 2 | Pending |
+| SIM-06 | Phase 2 | Pending |
+| LOG-01 | Phase 2 | Pending |
+| LOG-02 | Phase 5 | Pending |
+| LOG-03 | Phase 5 | Pending |
+| TUI-01 | Phase 4 | Pending |
+| TUI-02 | Phase 4 | Pending |
+| TUI-03 | Phase 4 | Pending |
+| TUI-04 | Phase 4 | Pending |
+| SPELL-01 | Phase 5 | Pending |
+| SPELL-02 | Phase 5 | Pending |
+| SPELL-03 | Phase 5 | Pending |
+| TERRAIN-01 | Phase 4 | Pending |
+| CLI-01 | Phase 1 | Pending |
 
 **Coverage:**
-- v1 requirements: 42 total
-- Mapped to phases: 0
-- Unmapped: 42 ⚠️
+- v1 requirements: 46 total
+- Mapped to phases: 46
+- Unmapped: 0
+
+**Phase Distribution:**
+- Phase 1: 19 requirements (Foundation & Core Combat)
+- Phase 2: 9 requirements (Creature Data & Monte Carlo Engine)
+- Phase 3: 5 requirements (LLM Tactical Agents)
+- Phase 4: 8 requirements (Terminal UI & Advanced Combat)
+- Phase 5: 5 requirements (Spells, Conditions & Resume)
 
 ---
 *Requirements defined: 2026-02-07*
-*Last updated: 2026-02-07 after initial definition*
+*Last updated: 2026-02-07 after roadmap creation*
