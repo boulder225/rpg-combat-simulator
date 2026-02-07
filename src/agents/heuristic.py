@@ -44,22 +44,43 @@ class HeuristicAgent:
             ),
         )[0]
 
-        # Choose first action
+        # Choose best action - prefer Multiattack over single attacks
         if not creature.actions:
             return AgentAction(action_type="dodge", description="No actions")
 
-        action = creature.actions[0]
+        # Find Multiattack action first, otherwise use first action
+        best_action = None
+        for action in creature.actions:
+            if action.is_multiattack:
+                best_action = action
+                break
 
-        if not action.attacks:
+        if best_action is None:
+            best_action = creature.actions[0]
+
+        if not best_action.attacks:
             return AgentAction(action_type="dodge", description="No attacks")
 
-        rng = action.attacks[0].range_feet
+        # Consider ranged attacks when out of melee range
         dist = distance_in_feet(creature.position, target.position)
+
+        # Find best attack for current distance (prefer longer range if out of melee)
+        best_attack = None
+        for atk in best_action.attacks:
+            if atk.range_feet >= dist:
+                if best_attack is None or atk.range_feet > best_attack.range_feet:
+                    best_attack = atk
+
+        # If no attack can reach, use first attack and try to close distance
+        if best_attack is None:
+            best_attack = best_action.attacks[0]
+
+        rng = best_attack.range_feet
 
         # Can attack from current position
         if dist <= rng:
             return AgentAction(
-                action_type="attack", attack_name=action.name, target_id=target_id
+                action_type="attack", attack_name=best_action.name, target_id=target_id
             )
 
         # Try to move into range
@@ -69,7 +90,7 @@ class HeuristicAgent:
         if dist2 <= rng:
             return AgentAction(
                 action_type="move_and_attack",
-                attack_name=action.name,
+                attack_name=best_action.name,
                 target_id=target_id,
                 move_to=new_pos,
             )
