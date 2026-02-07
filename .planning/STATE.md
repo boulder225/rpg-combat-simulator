@@ -11,28 +11,28 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 1 of 5 (Foundation & Core Combat)
-Plan: 1 of TBD in current phase
+Plan: 4 of 5 in current phase
 Status: In progress
-Last activity: 2026-02-07 — Completed 01-01-PLAN.md (Foundation Models & Grid System)
+Last activity: 2026-02-07 — Completed 01-05-PLAN.md (Combat Loop Upgrade)
 
-Progress: [██░░░░░░░░] 20%
+Progress: [████████░░] 80%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 6 min
-- Total execution time: 0.1 hours
+- Total plans completed: 4
+- Average duration: 4 min
+- Total execution time: 0.3 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1     | 1     | 6min  | 6min     |
+| 1     | 4     | 16min | 4min     |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6min)
-- Trend: Establishing baseline
+- Last 5 plans: 01-01 (6min), 01-02 (4min), 01-03 (4min), 01-05 (2min)
+- Trend: Accelerating (foundation complete, smaller gap-closure tasks)
 
 *Updated after each plan completion*
 
@@ -53,6 +53,10 @@ Recent decisions affecting current work:
 - **[01-01]** Chess notation for coordinates: Human-readable (A1, B2), easy to parse, natural for spatial reasoning
 - **[01-01]** Immutable combat state: Copy-on-write prevents accidental mutation, enables time-travel debugging
 - **[01-01]** python-frontmatter for markdown: Standard library for YAML frontmatter parsing
+- **[01-05]** Roll and log initiative at combat start: Provides visibility into initiative rolls
+- **[01-05]** Multiattack iteration pattern: Process all attacks in action.attacks for proper Multiattack support
+- **[01-05]** Damage modifier flow: Apply resistance/immunity/vulnerability before HP reduction
+- **[01-05]** Heuristic agent prefers Multiattack: Selects optimal action for maximum damage output
 
 ### Pending Todos
 
@@ -62,7 +66,7 @@ None yet.
 
 **Phase 1:**
 - Spatial model decision required: Full grid pathfinding vs discrete zones (benchmark both approaches for runtime vs accuracy tradeoff)
-- Advantage/disadvantage implementation: Must use ternary state machine, NOT counters (multiple sources cancel completely per 5e rules)
+- ~~Advantage/disadvantage implementation: Must use ternary state machine, NOT counters (multiple sources cancel completely per 5e rules)~~ ✓ Resolved in 01-02 (AdvantageState enum implemented)
 
 **Phase 2:**
 - Monte Carlo sample size: Need progressive sampling (run 500, check CI width, continue if needed for ±5% confidence)
@@ -74,6 +78,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07T22:14:39Z
-Stopped at: Completed 01-01-PLAN.md - Foundation Models & Grid System
+Last session: 2026-02-07T22:20:04Z
+Stopped at: Completed 01-05-PLAN.md - Combat Loop Upgrade
 Resume file: None
