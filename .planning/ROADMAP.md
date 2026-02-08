@@ -58,29 +58,15 @@ Plans:
   5. Damage breakdown attributes damage to each creature and ability type
   6. Results map to D&D difficulty labels (Easy/Medium/Hard/Deadly)
 
-**Plans**: TBD
+**Plans**: 6 plans
 
 Plans:
-- [ ] TBD during phase planning
-
-### Phase 3: LLM Tactical Agents
-**Goal**: DM can run simulations with LLM-powered tactical AI (local Ollama or cloud OpenRouter) that makes realistic combat decisions while rejecting hallucinated abilities.
-
-**Depends on**: Phase 2
-
-**Requirements**: AGENT-02, AGENT-03, AGENT-04, AGENT-05, AGENT-06
-
-**Success Criteria** (what must be TRUE):
-  1. DM can run simulation with --agent=llm --model=qwen2.5:7b-instruct and LLM chooses actions
-  2. LLM decisions appear in verbose logs with thinking rationale before action
-  3. When LLM suggests illegal action (e.g., goblin casting Fireball), system rejects it and falls back to valid action
-  4. Striker archetype creatures prioritize damage, tank archetypes prioritize protecting allies
-  5. OpenRouter API costs are tracked and displayed per batch run
-
-**Plans**: TBD
-
-Plans:
-- [ ] TBD during phase planning
+- [ ] 02-01-PLAN.md -- SRD API integration and creature data transformation
+- [ ] 02-02-PLAN.md -- Statistical analysis utilities for confidence intervals and difficulty ratings
+- [ ] 02-03-PLAN.md -- Cache-first creature loader with local file precedence
+- [ ] 02-04-PLAN.md -- Monte Carlo simulation engine with progressive sampling
+- [ ] 02-05-PLAN.md -- CLI integration and batch runner with SRD creature support
+- [ ] 02-06-PLAN.md -- Report generation and difficulty rating output
 
 ### Phase 4: Terminal UI & Advanced Combat
 **Goal**: DM sees professional terminal UI with live progress bars, scrollable combat logs, and colored result tables while advanced tactical mechanics (cover, AoE, opportunity attacks) work correctly.
