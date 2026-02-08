@@ -12,8 +12,8 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 
 Phase: 2 of 5 (Creature Data & Monte Carlo Engine) — IN PROGRESS
 Plan: 2 of 3 in phase 2
-Status: Statistical analysis utilities complete
-Last activity: 2026-02-08 — Completed 02-02-PLAN.md (Wilson score CI & difficulty ratings)
+Status: SRD API integration and statistical analysis complete
+Last activity: 2026-02-08 — Completed 02-01-PLAN.md (SRD API integration) and 02-02-PLAN.md (statistical analysis)
 
 Progress: [██░░░░░░░░] 67% (Phase 2: 2/3 plans)
 Overall:  [████░░░░░░] 40% (2/5 phases with partial progress)
@@ -22,7 +22,7 @@ Overall:  [████░░░░░░] 40% (2/5 phases with partial progress
 
 **Velocity:**
 - Total plans completed: 7
-- Average duration: ~3.5 min
+- Average duration: ~3 min
 - Total execution time: ~0.4 hours
 
 **By Phase:**
@@ -34,7 +34,7 @@ Overall:  [████░░░░░░] 40% (2/5 phases with partial progress
 
 **Recent Trend:**
 - Last 5 plans: 01-04 (2min), 01-05 (2min), 02-01 (3min), 02-02 (3min)
-- Trend: Maintaining fast execution with established patterns
+- Trend: Maintaining fast execution (~3min average for Phase 2)
 
 *Updated after each plan completion*
 
@@ -58,6 +58,9 @@ Recent decisions affecting current work:
 - **[01-02]** D20 library for all rolls: Industry-standard dice library with 2d20kh1/kl1 notation
 - **[01-04]** Full D&D 5e rules engine: attacks, damage with resistance/immunity/vulnerability, death saves, saving throws
 - **[01-05]** Multiattack support: Fighter executes 2 attacks per turn via Multiattack action
+- **[02-01]** Exponential backoff for SRD API: 1s, 2s, 4s retry timing (balances responsiveness with API courtesy)
+- **[02-01]** Multiattack structure: Multiattack action first, then individual attacks (matches D&D stat block convention)
+- **[02-01]** Initiative from DEX: Calculate initiative_bonus from dexterity modifier (standard D&D 5e rule)
 - **[02-02]** Wilson score over normal approximation: More accurate for small samples and extreme proportions
 - **[02-02]** Combined difficulty metrics: Win rate AND TPK risk, label by worse indicator
 - **[02-02]** Party-size-adjusted thresholds: 4-player baseline, ±2.5% per player difference
@@ -83,5 +86,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-08
-Stopped at: Completed 02-02-PLAN.md (Statistical analysis utilities)
+Stopped at: Completed 02-01-PLAN.md (SRD API integration) and 02-02-PLAN.md (statistical analysis)
 Resume file: None
