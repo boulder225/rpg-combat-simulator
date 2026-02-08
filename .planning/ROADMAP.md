@@ -12,7 +12,7 @@ This roadmap builds a terminal-based D&D 5e combat simulator with AI tactical ag
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation & Core Combat** - Combat mechanics work end-to-end with deterministic agents
+- [x] **Phase 1: Foundation & Core Combat** - Combat mechanics work end-to-end with deterministic agents
 - [ ] **Phase 2: Creature Data & Monte Carlo Engine** - Batch simulations run on real SRD creatures with statistical confidence
 - [ ] **Phase 3: LLM Tactical Agents** - LLM agents make tactical decisions with validation
 - [ ] **Phase 4: Terminal UI & Advanced Combat** - Professional TUI shows live progress with advanced tactical mechanics
@@ -34,12 +34,14 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. Advantage/disadvantage resolves correctly as ternary state (multiple sources cancel completely)
   5. Combat ends when one side reaches 0 HP and winner is declared
 
-**Plans**: 3 plans
+**Plans**: 5 plans
 
 Plans:
-- [ ] 01-01-PLAN.md -- Project setup, creature models, grid system, combat state, markdown parser
-- [ ] 01-02-PLAN.md -- Dice engine with advantage/disadvantage, rules engine (attacks, damage, saves, death saves)
-- [ ] 01-03-PLAN.md -- Heuristic agent, combat simulator loop, logger, CLI entry point
+- [x] 01-01-PLAN.md -- Project setup, creature models, grid system, combat state, markdown parser
+- [x] 01-02-PLAN.md -- Dice engine with advantage/disadvantage, rules engine (attacks, damage, saves, death saves)
+- [x] 01-03-PLAN.md -- Heuristic agent, combat simulator loop, logger, CLI entry point
+- [x] 01-04-PLAN.md -- Real D&D 5e combat mechanics and structured logging (gap closure)
+- [x] 01-05-PLAN.md -- Initiative, turn loop, Multiattack, CLI wiring (gap closure)
 
 ### Phase 2: Creature Data & Monte Carlo Engine
 **Goal**: DM can run 1000+ simulations using SRD monsters in under 10 minutes, see win percentages with confidence intervals, and difficulty ratings.
@@ -126,7 +128,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation & Core Combat | 0/3 | Planning complete | - |
+| 1. Foundation & Core Combat | 5/5 | ✓ Complete | 2026-02-07 |
 | 2. Creature Data & Monte Carlo Engine | 0/TBD | Not started | - |
 | 3. LLM Tactical Agents | 0/TBD | Not started | - |
 | 4. Terminal UI & Advanced Combat | 0/TBD | Not started | - |

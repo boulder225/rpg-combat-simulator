@@ -116,21 +116,21 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| COMBAT-01 | Phase 1 | Pending |
-| COMBAT-02 | Phase 1 | Pending |
-| COMBAT-03 | Phase 1 | Pending |
-| COMBAT-04 | Phase 1 | Pending |
-| COMBAT-05 | Phase 1 | Pending |
-| COMBAT-06 | Phase 1 | Pending |
-| COMBAT-07 | Phase 1 | Pending |
-| COMBAT-08 | Phase 1 | Pending |
-| COMBAT-09 | Phase 1 | Pending |
-| COMBAT-10 | Phase 1 | Pending |
-| COMBAT-11 | Phase 1 | Pending |
-| COMBAT-12 | Phase 1 | Pending |
-| GRID-01 | Phase 1 | Pending |
-| GRID-02 | Phase 1 | Pending |
-| GRID-03 | Phase 1 | Pending |
+| COMBAT-01 | Phase 1 | Complete |
+| COMBAT-02 | Phase 1 | Complete |
+| COMBAT-03 | Phase 1 | Complete |
+| COMBAT-04 | Phase 1 | Complete |
+| COMBAT-05 | Phase 1 | Complete |
+| COMBAT-06 | Phase 1 | Complete |
+| COMBAT-07 | Phase 1 | Complete |
+| COMBAT-08 | Phase 1 | Complete |
+| COMBAT-09 | Phase 1 | Complete |
+| COMBAT-10 | Phase 1 | Complete |
+| COMBAT-11 | Phase 1 | Complete |
+| COMBAT-12 | Phase 1 | Partial |
+| GRID-01 | Phase 1 | Complete |
+| GRID-02 | Phase 1 | Complete |
+| GRID-03 | Phase 1 | Complete |
 | GRID-04 | Phase 4 | Pending |
 | GRID-05 | Phase 4 | Pending |
 | GRID-06 | Phase 4 | Pending |
