@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Core Combat** - Combat mechanics work end-to-end with deterministic agents
 - [x] **Phase 2: Creature Data & Monte Carlo Engine** - Batch simulations run on real SRD creatures with statistical confidence
-- [ ] **Phase 3: LLM Tactical Agents** - LLM agents make tactical decisions with validation
+- [x] **Phase 3: LLM Tactical Agents** - LLM agents make tactical decisions with validation
 - [ ] **Phase 4: Terminal UI & Advanced Combat** - Professional TUI shows live progress with advanced tactical mechanics
 - [ ] **Phase 5: Spells, Conditions & Resume** - Full spell system with concentration and combat state persistence
 
@@ -138,6 +138,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Foundation & Core Combat | 5/5 | ✓ Complete | 2026-02-07 |
 | 2. Creature Data & Monte Carlo Engine | 6/6 | ✓ Complete | 2026-02-08 |
-| 3. LLM Tactical Agents | 0/3 | In progress | - |
+| 3. LLM Tactical Agents | 3/3 | ✓ Complete | 2026-02-08 |
 | 4. Terminal UI & Advanced Combat | 0/TBD | Not started | - |
 | 5. Spells, Conditions & Resume | 0/TBD | Not started | - |
