@@ -68,6 +68,28 @@ Plans:
 - [x] 02-05-PLAN.md -- CLI integration and batch runner with SRD creature support
 - [x] 02-06-PLAN.md -- Report generation and difficulty rating output
 
+### Phase 3: LLM Tactical Agents
+**Goal**: LLM agents (local via Ollama or cloud via OpenRouter) make tactical combat decisions using strict output format, with validation that rejects illegal moves and falls back to heuristic agent on failure.
+
+**Depends on**: Phase 2
+
+**Requirements**: AGENT-02, AGENT-03, AGENT-04, AGENT-05, AGENT-06
+
+**Success Criteria** (what must be TRUE):
+  1. LLM agent via Ollama makes tactical decisions (move, attack, target selection) for creatures in combat
+  2. LLM agent via OpenRouter (OpenAI-compatible API) works as alternative to local Ollama
+  3. LLM output uses strict format (`<thinking>` block + ACTION/TARGET/MOVEMENT/BONUS/REACTION keys)
+  4. Validation layer rejects illegal moves (out-of-range attacks, invalid targets) with error feedback
+  5. On LLM parse failure or illegal move, system falls back to heuristic agent seamlessly
+  6. Creature role archetypes (tank/striker/controller/support) influence LLM agent behavior via prompt
+
+**Plans**: 3 plans
+
+Plans:
+- [ ] 03-01-PLAN.md -- TDD: LLM output parser and move legality validator
+- [ ] 03-02-PLAN.md -- LLM providers (Ollama + OpenRouter) and prompt builder with role archetypes
+- [ ] 03-03-PLAN.md -- LLM agent orchestration with circuit breaker, fallback, and CLI integration
+
 ### Phase 4: Terminal UI & Advanced Combat
 **Goal**: DM sees professional terminal UI with live progress bars, scrollable combat logs, and colored result tables while advanced tactical mechanics (cover, AoE, opportunity attacks) work correctly.
 
@@ -116,6 +138,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Foundation & Core Combat | 5/5 | ✓ Complete | 2026-02-07 |
 | 2. Creature Data & Monte Carlo Engine | 6/6 | ✓ Complete | 2026-02-08 |
-| 3. LLM Tactical Agents | 0/TBD | Not started | - |
+| 3. LLM Tactical Agents | 0/3 | In progress | - |
 | 4. Terminal UI & Advanced Combat | 0/TBD | Not started | - |
 | 5. Spells, Conditions & Resume | 0/TBD | Not started | - |
