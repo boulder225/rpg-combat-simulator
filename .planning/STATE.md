@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 ## Current Position
 
 Phase: 2 of 5 (Creature Data & Monte Carlo Engine) — IN PROGRESS
-Plan: 4 of 6 in phase 2
-Status: Monte Carlo engine and batch runner complete
-Last activity: 2026-02-08 — Completed 02-04-PLAN.md (Monte Carlo engine & batch runner)
+Plan: 6 of 6 in phase 2
+Status: Report generation complete - Phase 2 complete
+Last activity: 2026-02-08 — Completed 02-06-PLAN.md (Report generation with dual output)
 
-Progress: [██████░░░░] 67% (Phase 2: 4/6 plans)
-Overall:  [████░░░░░░] 40% (2/5 phases with partial progress)
+Progress: [██████████] 100% (Phase 2: 6/6 plans complete)
+Overall:  [████░░░░░░] 40% (2/5 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
-- Average duration: ~3 min
+- Total plans completed: 11
+- Average duration: ~2.7 min
 - Total execution time: ~0.5 hours
 
 **By Phase:**
@@ -30,11 +30,11 @@ Overall:  [████░░░░░░] 40% (2/5 phases with partial progress
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1     | 5     | ~20min | ~4min   |
-| 2     | 4     | ~11min | ~2.8min |
+| 2     | 6     | ~15min | ~2.5min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (3min), 02-02 (3min), 02-03 (2min), 02-04 (3min)
-- Trend: Excellent velocity (Phase 2 maintaining ~3min per plan)
+- Last 5 plans: 02-02 (3min), 02-03 (2min), 02-04 (3min), 02-05 (2min), 02-06 (2min)
+- Trend: Excellent velocity (Phase 2 averaging 2.5min per plan)
 
 *Updated after each plan completion*
 
@@ -70,6 +70,9 @@ Recent decisions affecting current work:
 - **[02-04]** Progressive sampling: Start 100 runs, check CI every 100, stop when CI width ≤ 0.10 or max 5000 runs
 - **[02-04]** Sequential execution: No multiprocessing for simplicity and deterministic behavior
 - **[02-04]** Damage breakdown via log parsing: Non-invasive attribution without instrumenting combat engine
+- **[02-06]** Terminal shows top 5 damage sources only: Keeps output concise, markdown has complete breakdown
+- **[02-06]** Per-run outcomes limited to 50 rows: Balance detail vs readability in markdown reports
+- **[02-06]** Timestamped report filenames: YYYY-MM-DD_HH-MM-SS format prevents overwrites, enables chronological sorting
 
 ### Pending Todos
 
@@ -81,11 +84,12 @@ None yet.
 - ~~Advantage/disadvantage~~ ✓ Ternary state machine implemented
 - ~~Spatial model~~ Using Manhattan distance, pathfinding deferred
 
-**Phase 2:** ✓ All resolved
+**Phase 2:** ✓ COMPLETE
 - ✓ Progressive sampling: Implemented stopping criteria (CI width ≤ 0.10 for ±5% precision)
 - ✓ SRD API mapping: Validated with goblin and orc, cache-first loader handles edge cases gracefully
 - ✓ Monte Carlo engine: Adaptive sampling with confidence-based stopping complete
 - ✓ Batch runner: Progress tracking and comprehensive result collection complete
+- ✓ Report generation: Dual output (terminal + markdown) with difficulty ratings and damage breakdown
 
 **Phase 3:**
 - LLM prompt engineering: Balance context detail vs 2k-4k token budget for 7B models
@@ -94,5 +98,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-08
-Stopped at: Completed 02-04-PLAN.md (Monte Carlo engine & batch runner)
+Stopped at: Completed 02-06-PLAN.md (Report generation with dual output) - Phase 2 COMPLETE
 Resume file: None
