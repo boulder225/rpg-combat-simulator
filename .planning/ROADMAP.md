@@ -61,12 +61,12 @@ Plans:
 **Plans**: 6 plans
 
 Plans:
-- [ ] 02-01-PLAN.md -- SRD API integration and creature data transformation
-- [ ] 02-02-PLAN.md -- Statistical analysis utilities for confidence intervals and difficulty ratings
-- [ ] 02-03-PLAN.md -- Cache-first creature loader with local file precedence
-- [ ] 02-04-PLAN.md -- Monte Carlo simulation engine with progressive sampling
-- [ ] 02-05-PLAN.md -- CLI integration and batch runner with SRD creature support
-- [ ] 02-06-PLAN.md -- Report generation and difficulty rating output
+- [x] 02-01-PLAN.md -- SRD API integration and creature data transformation
+- [x] 02-02-PLAN.md -- Statistical analysis utilities for confidence intervals and difficulty ratings
+- [x] 02-03-PLAN.md -- Cache-first creature loader with local file precedence
+- [x] 02-04-PLAN.md -- Monte Carlo simulation engine with progressive sampling
+- [x] 02-05-PLAN.md -- CLI integration and batch runner with SRD creature support
+- [x] 02-06-PLAN.md -- Report generation and difficulty rating output
 
 ### Phase 4: Terminal UI & Advanced Combat
 **Goal**: DM sees professional terminal UI with live progress bars, scrollable combat logs, and colored result tables while advanced tactical mechanics (cover, AoE, opportunity attacks) work correctly.
@@ -115,7 +115,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation & Core Combat | 5/5 | ✓ Complete | 2026-02-07 |
-| 2. Creature Data & Monte Carlo Engine | 0/TBD | Not started | - |
+| 2. Creature Data & Monte Carlo Engine | 6/6 | ✓ Complete | 2026-02-08 |
 | 3. LLM Tactical Agents | 0/TBD | Not started | - |
 | 4. Terminal UI & Advanced Combat | 0/TBD | Not started | - |
 | 5. Spells, Conditions & Resume | 0/TBD | Not started | - |
