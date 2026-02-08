@@ -30,6 +30,14 @@ def run_combat(creatures: dict, agent, seed=None, max_rounds=100, verbose=True):
     """
     if seed is not None:
         random.seed(seed)
+    
+    # Reset circuit breaker for LLM agents between combat runs
+    if hasattr(agent, 'reset_circuit_breaker'):
+        agent.reset_circuit_breaker()
+    
+    # Reset circuit breaker for LLM agents between combat runs
+    if hasattr(agent, 'reset_circuit_breaker'):
+        agent.reset_circuit_breaker()
 
     # Roll initiative and log results
     logger = CombatLogger(verbose=verbose)

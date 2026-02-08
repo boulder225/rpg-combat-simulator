@@ -22,12 +22,20 @@ class BatchArgs:
         runs: Number of simulation runs (None means single simulation mode)
         seed: Random seed for reproducibility
         verbose: Enable verbose output
+        agent: Agent type for action selection (heuristic or llm)
+        provider: LLM provider (only used with --agent llm)
+        model: LLM model name (None uses default based on provider)
+        role: Creature role archetype for LLM tactical behavior
     """
     party: List[str]
     enemies: List[str]
     runs: Optional[int]
     seed: Optional[int]
     verbose: bool
+    agent: str
+    provider: str
+    model: Optional[str]
+    role: str
 
 
 def parse_batch_args(args=None) -> BatchArgs:
@@ -55,22 +63,31 @@ def parse_batch_args(args=None) -> BatchArgs:
         description="D&D 5e combat simulator with SRD creature support",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
-Examples:
-  # Single combat with detailed logs
-  python run.py --party fighter.md --enemies goblin goblin
+ Examples:
+   # Single combat with detailed logs
+   python run.py --party fighter.md --enemies goblin goblin
 
-  # Batch simulation with 500 runs
-  python run.py --party fighter.md cleric.md --enemies goblin goblin goblin --runs 500
+   # Batch simulation with 500 runs
+   python run.py --party fighter.md cleric.md --enemies goblin goblin goblin --runs 500
 
-  # With random seed for reproducibility
-  python run.py --party fighter.md --enemies orc --runs 100 --seed 42
+   # With random seed for reproducibility
+   python run.py --party fighter.md --enemies orc --runs 100 --seed 42
 
-Creature resolution:
-  - fighter.md    → Load from data/creatures/fighter.md (local file)
-  - goblin        → Fetch from SRD API, cache in data/srd-cache/goblin.md
-  - orc           → Fetch from SRD API, cache in data/srd-cache/orc.md
+   # With LLM agent (local Ollama)
+   python run.py --party fighter.md --enemies goblin goblin --agent llm --runs 100
 
-Local files always take precedence over SRD data.
+   # With LLM agent (cloud OpenRouter)
+   python run.py --party fighter.md --enemies goblin --agent llm --provider openrouter --runs 50
+
+   # With role archetype
+   python run.py --party fighter.md --enemies goblin --agent llm --role striker
+
+ Creature resolution:
+   - fighter.md    → Load from data/creatures/fighter.md (local file)
+   - goblin        → Fetch from SRD API, cache in data/srd-cache/goblin.md
+   - orc           → Fetch from SRD API, cache in data/srd-cache/orc.md
+
+ Local files always take precedence over SRD data.
         """
     )
 
@@ -112,16 +129,106 @@ Local files always take precedence over SRD data.
         help="Enable verbose output (ignored in single combat mode)"
     )
 
+    parser.add_argument(
+        "--agent",
+        choices=["heuristic", "llm"],
+        default="heuristic",
+        help="Agent type for action selection (heuristic or llm)"
+    )
+
+    parser.add_argument(
+        "--provider",
+        choices=["ollama", "openrouter"],
+        default="ollama",
+        help="LLM provider (only used with --agent llm)"
+    )
+
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=None,
+        help="LLM model name (default: qwen2.5:7b-instruct for ollama, qwen/qwen2.5-coder-7b-instruct for openrouter)"
+    )
+
+    parser.add_argument(
+        "--role",
+        choices=["default", "tank", "striker", "controller", "support"],
+        default="default",
+        help="Creature role archetype for LLM tactical behavior"
+    )
+
     parsed = parser.parse_args(args)
 
     # Validate runs parameter
     if parsed.runs is not None and parsed.runs <= 0:
         parser.error("--runs must be a positive integer")
 
+    # Validate OpenRouter API key if needed
+    if parsed.agent == "llm" and parsed.provider == "openrouter":
+        import os
+        if not os.environ.get("OPENROUTER_API_KEY"):
+            print("Warning: OPENROUTER_API_KEY environment variable not set. OpenRouter provider will fail.")
+
     return BatchArgs(
         party=parsed.party,
         enemies=parsed.enemies,
         runs=parsed.runs,
         seed=parsed.seed,
-        verbose=parsed.verbose
+        verbose=parsed.verbose,
+        agent=parsed.agent,
+        provider=parsed.provider,
+        model=parsed.model,
+        role=parsed.role
+    )
+
+    parser.add_argument(
+        "--agent",
+        choices=["heuristic", "llm"],
+        default="heuristic",
+        help="Agent type for action selection (heuristic or llm)"
+    )
+
+    parser.add_argument(
+        "--provider",
+        choices=["ollama", "openrouter"],
+        default="ollama",
+        help="LLM provider (only used with --agent llm)"
+    )
+
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=None,
+        help="LLM model name (default: qwen2.5:7b-instruct for ollama, qwen/qwen2.5-coder-7b-instruct for openrouter)"
+    )
+
+    parser.add_argument(
+        "--role",
+        choices=["default", "tank", "striker", "controller", "support"],
+        default="default",
+        help="Creature role archetype for LLM tactical behavior"
+    )
+
+    parsed = parser.parse_args(args)
+
+    # Validate runs parameter
+    if parsed.runs is not None and parsed.runs <= 0:
+        parser.error("--runs must be a positive integer")
+
+    # Validate OpenRouter API key if needed
+    if parsed.agent == "llm" and parsed.provider == "openrouter":
+        import os
+        if not os.environ.get("OPENROUTER_API_KEY"):
+            print("Warning: OPENROUTER_API_KEY environment variable not set. OpenRouter provider will fail.")
+
+    return BatchArgs(
+        party=parsed.party,
+        enemies=parsed.enemies,
+        runs=parsed.runs,
+        seed=parsed.seed,
+        verbose=parsed.verbose,
+        agent=parsed.agent,
+        provider=parsed.provider,
+        model=parsed.model,
+        role=parsed.role
     )

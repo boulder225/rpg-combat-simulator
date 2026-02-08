@@ -153,7 +153,30 @@ def main():
         return 1
 
     # Initialize agent
-    agent = HeuristicAgent()
+    if args.agent == "llm":
+        from src.agents.llm_agent import LLMAgent
+        from src.agents.llm_providers import OllamaProvider, OpenRouterProvider
+        import os
+
+        # Select provider
+        if args.provider == "ollama":
+            provider = OllamaProvider()
+        elif args.provider == "openrouter":
+            api_key = os.environ.get("OPENROUTER_API_KEY")
+            if not api_key:
+                print("Error: OPENROUTER_API_KEY environment variable required for openrouter provider")
+                return 1
+            provider = OpenRouterProvider(api_key=api_key)
+
+        # Select model (defaults based on provider)
+        model = args.model
+        if model is None:
+            model = "qwen2.5:7b-instruct" if args.provider == "ollama" else "qwen/qwen2.5-coder-7b-instruct"
+
+        agent = LLMAgent(provider=provider, model=model, role=args.role)
+        print(f"Using LLM agent: {args.provider}/{model} (role: {args.role})")
+    else:
+        agent = HeuristicAgent()
 
     # Run appropriate mode
     if args.runs is None:
