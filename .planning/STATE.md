@@ -10,30 +10,31 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 
 ## Current Position
 
-Phase: 1 of 5 (Foundation & Core Combat) — COMPLETE
-Plan: 5 of 5 in phase 1
-Status: Phase 1 verified and complete
-Last activity: 2026-02-07 — Phase 1 verified (5/5 success criteria passed, 127 tests)
+Phase: 2 of 5 (Creature Data & Monte Carlo Engine) — IN PROGRESS
+Plan: 2 of 3 in phase 2
+Status: Statistical analysis utilities complete
+Last activity: 2026-02-08 — Completed 02-02-PLAN.md (Wilson score CI & difficulty ratings)
 
-Progress: [██████████] 100% (Phase 1)
-Overall:  [██░░░░░░░░] 20% (1/5 phases)
+Progress: [██░░░░░░░░] 67% (Phase 2: 2/3 plans)
+Overall:  [████░░░░░░] 40% (2/5 phases with partial progress)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: ~4 min
-- Total execution time: ~0.3 hours
+- Total plans completed: 7
+- Average duration: ~3.5 min
+- Total execution time: ~0.4 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1     | 5     | ~20min | ~4min   |
+| 2     | 2     | ~6min  | ~3min   |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (6min), 01-02 (5min), 01-03 (prev), 01-04 (2min), 01-05 (2min)
-- Trend: Getting faster as foundation solidifies
+- Last 5 plans: 01-04 (2min), 01-05 (2min), 02-01 (3min), 02-02 (3min)
+- Trend: Maintaining fast execution with established patterns
 
 *Updated after each plan completion*
 
@@ -57,6 +58,9 @@ Recent decisions affecting current work:
 - **[01-02]** D20 library for all rolls: Industry-standard dice library with 2d20kh1/kl1 notation
 - **[01-04]** Full D&D 5e rules engine: attacks, damage with resistance/immunity/vulnerability, death saves, saving throws
 - **[01-05]** Multiattack support: Fighter executes 2 attacks per turn via Multiattack action
+- **[02-02]** Wilson score over normal approximation: More accurate for small samples and extreme proportions
+- **[02-02]** Combined difficulty metrics: Win rate AND TPK risk, label by worse indicator
+- **[02-02]** Party-size-adjusted thresholds: 4-player baseline, ±2.5% per player difference
 
 ### Pending Todos
 
@@ -69,7 +73,7 @@ None yet.
 - ~~Spatial model~~ Using Manhattan distance, pathfinding deferred
 
 **Phase 2:**
-- Monte Carlo sample size: Need progressive sampling (run 500, check CI width, continue if needed for ±5% confidence)
+- ✓ Progressive sampling: Implemented stopping criteria (CI width ≤ 0.10 for ±5% precision)
 - SRD API mapping: Schema validation required for edge cases (spellcasters, legendary creatures, swarms)
 
 **Phase 3:**
@@ -78,6 +82,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-02-07
-Stopped at: Phase 1 complete and verified. Ready for Phase 2.
+Last session: 2026-02-08
+Stopped at: Completed 02-02-PLAN.md (Statistical analysis utilities)
 Resume file: None
