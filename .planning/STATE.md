@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 
 ## Current Position
 
-Phase: 2 of 5 (Creature Data & Monte Carlo Engine) — IN PROGRESS
-Plan: 2 of 3 in phase 2
-Status: SRD API integration and statistical analysis complete
-Last activity: 2026-02-08 — Completed 02-01-PLAN.md (SRD API integration) and 02-02-PLAN.md (statistical analysis)
+Phase: 2 of 5 (Creature Data & Monte Carlo Engine) — COMPLETE
+Plan: 3 of 3 in phase 2
+Status: Phase 2 complete - SRD API, statistical analysis, and creature loader ready
+Last activity: 2026-02-08 — Completed 02-03-PLAN.md (cache-first creature loader)
 
-Progress: [██░░░░░░░░] 67% (Phase 2: 2/3 plans)
-Overall:  [████░░░░░░] 40% (2/5 phases with partial progress)
+Progress: [██████████] 100% (Phase 2: 3/3 plans)
+Overall:  [████░░░░░░] 40% (2/5 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 8
 - Average duration: ~3 min
 - Total execution time: ~0.4 hours
 
@@ -30,11 +30,11 @@ Overall:  [████░░░░░░] 40% (2/5 phases with partial progress
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1     | 5     | ~20min | ~4min   |
-| 2     | 2     | ~6min  | ~3min   |
+| 2     | 3     | ~8min  | ~2.7min |
 
 **Recent Trend:**
-- Last 5 plans: 01-04 (2min), 01-05 (2min), 02-01 (3min), 02-02 (3min)
-- Trend: Maintaining fast execution (~3min average for Phase 2)
+- Last 5 plans: 01-05 (2min), 02-01 (3min), 02-02 (3min), 02-03 (2min)
+- Trend: Excellent velocity (Phase 2 averaged <3min per plan)
 
 *Updated after each plan completion*
 
@@ -64,6 +64,9 @@ Recent decisions affecting current work:
 - **[02-02]** Wilson score over normal approximation: More accurate for small samples and extreme proportions
 - **[02-02]** Combined difficulty metrics: Win rate AND TPK risk, label by worse indicator
 - **[02-02]** Party-size-adjusted thresholds: 4-player baseline, ±2.5% per player difference
+- **[02-03]** Local files always override SRD: DM customizations take precedence over SRD API data
+- **[02-03]** Auto-number duplicate creatures: Support multiple instances (goblin_0, goblin_1) in same encounter
+- **[02-03]** Cache SRD as markdown: Human-readable, version-controllable creature data
 
 ### Pending Todos
 
@@ -75,9 +78,9 @@ None yet.
 - ~~Advantage/disadvantage~~ ✓ Ternary state machine implemented
 - ~~Spatial model~~ Using Manhattan distance, pathfinding deferred
 
-**Phase 2:**
+**Phase 2:** ✓ All resolved
 - ✓ Progressive sampling: Implemented stopping criteria (CI width ≤ 0.10 for ±5% precision)
-- SRD API mapping: Schema validation required for edge cases (spellcasters, legendary creatures, swarms)
+- ✓ SRD API mapping: Validated with goblin and orc, cache-first loader handles edge cases gracefully
 
 **Phase 3:**
 - LLM prompt engineering: Balance context detail vs 2k-4k token budget for 7B models
@@ -86,5 +89,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-08
-Stopped at: Completed 02-01-PLAN.md (SRD API integration) and 02-02-PLAN.md (statistical analysis)
+Stopped at: Completed 02-03-PLAN.md (cache-first creature loader) - Phase 2 complete
 Resume file: None
