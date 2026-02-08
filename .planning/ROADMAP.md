@@ -13,7 +13,7 @@ This roadmap builds a terminal-based D&D 5e combat simulator with AI tactical ag
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation & Core Combat** - Combat mechanics work end-to-end with deterministic agents
-- [ ] **Phase 2: Creature Data & Monte Carlo Engine** - Batch simulations run on real SRD creatures with statistical confidence
+- [x] **Phase 2: Creature Data & Monte Carlo Engine** - Batch simulations run on real SRD creatures with statistical confidence
 - [ ] **Phase 3: LLM Tactical Agents** - LLM agents make tactical decisions with validation
 - [ ] **Phase 4: Terminal UI & Advanced Combat** - Professional TUI shows live progress with advanced tactical mechanics
 - [ ] **Phase 5: Spells, Conditions & Resume** - Full spell system with concentration and combat state persistence

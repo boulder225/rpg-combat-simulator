@@ -134,23 +134,23 @@
 | GRID-04 | Phase 4 | Pending |
 | GRID-05 | Phase 4 | Pending |
 | GRID-06 | Phase 4 | Pending |
-| CREATURE-01 | Phase 1 | Pending |
-| CREATURE-02 | Phase 1 | Pending |
-| CREATURE-03 | Phase 2 | Pending |
-| CREATURE-04 | Phase 2 | Pending |
-| AGENT-01 | Phase 1 | Pending |
+| CREATURE-01 | Phase 1 | Complete |
+| CREATURE-02 | Phase 1 | Complete |
+| CREATURE-03 | Phase 2 | Complete |
+| CREATURE-04 | Phase 2 | Complete |
+| AGENT-01 | Phase 1 | Complete |
 | AGENT-02 | Phase 3 | Pending |
 | AGENT-03 | Phase 3 | Pending |
 | AGENT-04 | Phase 3 | Pending |
 | AGENT-05 | Phase 3 | Pending |
 | AGENT-06 | Phase 3 | Pending |
-| SIM-01 | Phase 2 | Pending |
-| SIM-02 | Phase 2 | Pending |
-| SIM-03 | Phase 2 | Pending |
-| SIM-04 | Phase 2 | Pending |
+| SIM-01 | Phase 2 | Complete |
+| SIM-02 | Phase 2 | Complete |
+| SIM-03 | Phase 2 | Complete |
+| SIM-04 | Phase 2 | Complete |
 | SIM-05 | Phase 2 | Pending |
-| SIM-06 | Phase 2 | Pending |
-| LOG-01 | Phase 2 | Pending |
+| SIM-06 | Phase 2 | Complete |
+| LOG-01 | Phase 2 | Complete |
 | LOG-02 | Phase 5 | Pending |
 | LOG-03 | Phase 5 | Pending |
 | TUI-01 | Phase 4 | Pending |
@@ -161,7 +161,7 @@
 | SPELL-02 | Phase 5 | Pending |
 | SPELL-03 | Phase 5 | Pending |
 | TERRAIN-01 | Phase 4 | Pending |
-| CLI-01 | Phase 1 | Pending |
+| CLI-01 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 46 total
