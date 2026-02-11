@@ -105,10 +105,15 @@ Plans:
   5. Creature leaving melee reach triggers opportunity attack
   6. Fireball (sphere AoE) hits all creatures within grid radius
 
-**Plans**: TBD
+**Plans**: 6 plans
 
 Plans:
-- [ ] TBD during phase planning
+- [ ] 04-01-PLAN.md -- Terrain model and cover calculation (domain + loader)
+- [ ] 04-02-PLAN.md -- Cover in combat resolution and CLI --terrain
+- [ ] 04-03-PLAN.md -- Opportunity attacks (reaction tracking, leave-reach trigger)
+- [ ] 04-04-PLAN.md -- Fireball AoE (sphere, save, damage; agent support)
+- [ ] 04-05-PLAN.md -- TUI shell and progress (--tui, Textual app, worker, progress bar)
+- [ ] 04-06-PLAN.md -- TUI combat log and results panel (scrollable log, colored results)
 
 ### Phase 5: Spells, Conditions & Resume
 **Goal**: Spellcasters manage spell slots across combat, concentration enforces one-spell-at-a-time rules, conditions affect combat correctly, and interrupted simulations can resume from checkpoint.
@@ -124,10 +129,13 @@ Plans:
   4. Prone condition gives advantage to melee attacks, disadvantage to ranged attacks
   5. DM can resume interrupted 1000-run batch from checkpoint without losing progress
 
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] TBD during phase planning
+- [ ] 05-01-PLAN.md -- Spell slot, concentration, and condition domain models (TDD)
+- [ ] 05-02-PLAN.md -- Spells and conditions in simulator (slot deduction, concentration saves, advantage)
+- [ ] 05-03-PLAN.md -- Batch checkpoint/resume (save/load, --resume CLI)
+- [ ] 05-04-PLAN.md -- Verbose single-run mode (dice detail, LLM thinking display)
 
 ## Progress
 
@@ -140,4 +148,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 2. Creature Data & Monte Carlo Engine | 6/6 | ✓ Complete | 2026-02-08 |
 | 3. LLM Tactical Agents | 3/3 | ✓ Complete | 2026-02-08 |
 | 4. Terminal UI & Advanced Combat | 0/TBD | Not started | - |
-| 5. Spells, Conditions & Resume | 0/TBD | Not started | - |
+| 5. Spells, Conditions & Resume | 0/4 | Planned | - |
