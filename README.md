@@ -115,6 +115,82 @@ python run.py --party fighter --enemies goblin goblin --runs 100 --tui
 python run.py --party fighter --enemies goblin --lang it --runs 20
 ```
 
+## Outcome
+
+The simulator runs in two main modes. What you see depends on whether you use `--runs` (batch) or omit it (single combat).
+
+### Single Combat Mode (no `--runs`)
+
+Runs one fight with full round-by-round output. Ideal for LLM agents or when you want to inspect tactics in detail.
+
+**When to use:** Omit `--runs`, e.g. `python run.py --party fighter --enemies goblin goblin`.
+
+**Output:**
+
+1. **Setup** — Party and enemy lists, optional terrain
+2. **Combat log** — Initial initiative rolls, then for each round:
+   - **Strategy evolution** — Previous round’s tactics per creature (at start of round)
+   - **Actions** — Movements, attacks, damage, opportunity attacks, deaths
+3. **Combat Complete** — Summary with:
+
+| Section | Description |
+|--------|-------------|
+| **Match level** | Difficulty rating: Easy, Medium, Hard, or Deadly |
+| **Notes** | Short outcome: winner, rounds, casualties |
+| **Final shape** | Each creature’s HP, AC, position at combat end |
+| **Fallen** | Who reached 0 HP (party and enemies) |
+| **Damage Dealt** | Per side: total damage and breakdown by attack (e.g. Longsword: 3 hit(s), 24 damage) |
+| **Deaths by character** | Kills per character by damage type (e.g. Fighter: 2 kills (Slashing 2)) |
+
+### LLM Mode (`--agent llm`)
+
+Same as single combat, but:
+
+- Each creature’s actions are chosen by the LLM
+- **Pause between rounds** — You can press Enter to step through
+- Strategy evolution shows the model’s reasoning
+
+Use: `python run.py --party fighter --enemies goblin --agent llm` (no `--runs`).
+
+### Batch Mode (`--runs N`)
+
+Runs N simulations and aggregates results. Use for balance testing and win-rate estimates.
+
+**When to use:** Add `--runs N`, e.g. `python run.py --party fighter cleric --enemies goblin goblin goblin --runs 500`.
+
+**Output:**
+
+| Metric | Description |
+|--------|-------------|
+| **Party Win Rate** | Proportion of runs where the party wins (0–100%) |
+| **95% Confidence** | Confidence interval for the win rate |
+| **TPK Rate** | Total Party Kill rate — proportion of runs where all party members die |
+| **Difficulty** | Easy / Medium / Hard / Deadly based on win rate, TPK risk, and duration |
+| **Combat Duration** | Average rounds when party wins vs when party loses |
+| **Damage Dealt** | Total damage across runs; top damage dealers per creature |
+
+### TUI Mode (`--tui --runs N`)
+
+Interactive terminal UI for batch runs: progress bar, live stats, and log viewer.
+
+---
+
+## Metrics Reference
+
+| Metric | Mode | Description |
+|--------|------|-------------|
+| **Match level / Difficulty** | Both | Easy, Medium, Hard, or Deadly. Based on win rate, TPK risk, and combat length |
+| **Final shape** | Single | Each creature’s current HP, max HP, AC, and grid position at combat end |
+| **Fallen** | Single | Names of creatures that reached 0 HP, grouped by party/enemies |
+| **Damage Dealt** | Both | Per side: total damage and breakdown by attack (hits/casts and damage) |
+| **Deaths by character** | Single | Who scored each killing blow, with damage type (e.g. Slashing, Fire) |
+| **Party Win Rate** | Batch | % of runs won by the party |
+| **95% Confidence** | Batch | Statistical interval for the win rate |
+| **TPK Rate** | Batch | % of runs where the whole party died |
+| **Combat Duration** | Batch | Average rounds to reach a result (separately for wins and losses) |
+
+---
+
 ## Requirements
 
 - Python 3.x
