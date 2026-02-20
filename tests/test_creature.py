@@ -117,6 +117,27 @@ def test_action_multiattack():
     assert len(action.attacks) == 2
 
 
+def test_action_aoe_fireball():
+    """Test Action with AoE (Fireball-style) fields."""
+    dmg = DamageRoll(dice="8d6", damage_type="fire")
+    action = Action(
+        name="Fireball",
+        description="Spell: 20-foot-radius sphere",
+        attacks=[],
+        area_shape="sphere",
+        radius_squares=4,
+        save_ability="dex",
+        save_dc=14,
+        damage=dmg,
+    )
+    assert action.is_aoe is True
+    assert action.area_shape == "sphere"
+    assert action.radius_squares == 4
+    assert action.save_dc == 14
+    assert action.damage.dice == "8d6"
+    assert action.damage.damage_type == "fire"
+
+
 def test_action_description():
     """Test Action description field."""
     action = Action(name="Dash", description="Double movement speed")

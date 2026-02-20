@@ -19,6 +19,7 @@ class CombatState:
     combat_log: list[str] = field(default_factory=list)
     is_over: bool = False
     winner: str | None = None
+    reaction_used: frozenset[str] = field(default_factory=frozenset)
 
     def update_creature(self, creature_id: str, **updates) -> "CombatState":
         """Update a creature and return new CombatState.
@@ -48,6 +49,11 @@ class CombatState:
         new_log = self.combat_log + [message]
         return replace(self, combat_log=new_log)
 
+    def set_reaction_used(self, creature_id: str) -> "CombatState":
+        """Mark a creature as having used its reaction this round."""
+        new_set = frozenset(self.reaction_used) | {creature_id}
+        return replace(self, reaction_used=new_set)
+
     def next_turn(self) -> "CombatState":
         """Advance to next turn and return new CombatState.
 
@@ -56,8 +62,8 @@ class CombatState:
         """
         next_turn_idx = self.current_turn + 1
         if next_turn_idx >= len(self.initiative_order):
-            # New round
-            return replace(self, current_turn=0, round=self.round + 1)
+            # New round: reset reactions
+            return replace(self, current_turn=0, round=self.round + 1, reaction_used=frozenset())
         else:
             return replace(self, current_turn=next_turn_idx)
 

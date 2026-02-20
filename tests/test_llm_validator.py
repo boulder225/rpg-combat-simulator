@@ -36,7 +36,7 @@ class TestLLMValidator:
             actions=[Action(name="Scimitar", attacks=[scimitar])]
         )
 
-        # Create target (fighter at D4 - 5ft away)
+        # Create target (fighter at E4 - 5ft away)
         fighter = Creature(
             name="Fighter",
             ac=18,
@@ -44,7 +44,7 @@ class TestLLMValidator:
             current_hp=12,
             speed=30,
             team="party",
-            position="D4",
+            position="E4",
             creature_id="fighter_0",
             ability_scores=AbilityScores()
         )
@@ -66,7 +66,7 @@ class TestLLMValidator:
         response = LLMResponse(
             thinking="Fighter is adjacent, I'll attack.",
             action="Attack with Scimitar",
-            target="Fighter (D4)"
+            target="Fighter (E4)"
         )
 
         valid, error = validate_move(response, basic_state, "goblin_0")
@@ -131,7 +131,15 @@ class TestLLMValidator:
             ability_scores=AbilityScores()
         )
 
-        distant_state = basic_state.update_creature("wizard_0", **wizard.model_dump())
+        # Create new state with wizard added
+        distant_creatures = dict(basic_state.creatures)
+        distant_creatures["wizard_0"] = wizard
+        distant_state = CombatState(
+            creatures=distant_creatures,
+            initiative_order=basic_state.initiative_order + ["wizard_0"],
+            current_turn=0,
+            round=1
+        )
         distant_creatures = dict(distant_state.creatures)
         distant_creatures["wizard_0"] = wizard
         distant_state = CombatState(
@@ -154,7 +162,7 @@ class TestLLMValidator:
 
     def test_attack_with_movement_into_range(self, basic_state):
         """Attack on distant target WITH movement into range should pass."""
-        # Create distant wizard at A1
+        # Create distant wizard at C5 (10ft from goblin at E5)
         wizard = Creature(
             name="Wizard",
             ac=12,
@@ -162,7 +170,7 @@ class TestLLMValidator:
             current_hp=8,
             speed=30,
             team="party",
-            position="A1",
+            position="C5",
             creature_id="wizard_0",
             ability_scores=AbilityScores()
         )
@@ -179,8 +187,8 @@ class TestLLMValidator:
         response = LLMResponse(
             thinking="Move to wizard and attack.",
             action="Attack with Scimitar",
-            target="Wizard (A1)",
-            movement="B1"  # Move adjacent to wizard
+            target="Wizard (C5)",
+            movement="D5"  # Move to D5 (5ft from C5, within reach)
         )
 
         valid, error = validate_move(response, distant_state, "goblin_0")
@@ -218,7 +226,7 @@ class TestLLMValidator:
         response = LLMResponse(
             thinking="Attack the fighter.",
             action="Attack with Scimitar",
-            target="Fighter (D4)"
+            target="Fighter (E4)"
         )
 
         action = to_agent_action(response, basic_state, "goblin_0")
@@ -234,8 +242,8 @@ class TestLLMValidator:
         response = LLMResponse(
             thinking="Move and attack.",
             action="Attack with Scimitar",
-            target="Fighter (D4)",
-            movement="D5"
+            target="Fighter (E4)",
+            movement="E4"
         )
 
         action = to_agent_action(response, basic_state, "goblin_0")
@@ -243,7 +251,7 @@ class TestLLMValidator:
         assert action.action_type == "move_and_attack"
         assert action.attack_name == "Scimitar"
         assert action.target_id == "fighter_0"
-        assert action.move_to == "D5"
+        assert action.move_to == "E4"
 
     def test_to_agent_action_dodge(self, basic_state):
         """Dodge action should convert to dodge action_type."""
@@ -296,11 +304,11 @@ class TestLLMValidator:
         assert error == ""
 
     def test_target_name_resolution_with_position(self, basic_state):
-        """Target 'Fighter (D4)' should resolve to 'fighter_0'."""
+        """Target 'Fighter (E4)' should resolve to 'fighter_0'."""
         response = LLMResponse(
             thinking="Attack.",
             action="Attack with Scimitar",
-            target="Fighter (D4)"
+            target="Fighter (E4)"
         )
 
         valid, error = validate_move(response, basic_state, "goblin_0")
@@ -352,7 +360,7 @@ class TestLLMValidator:
         response = LLMResponse(
             thinking="Use multiattack.",
             action="Multiattack with Scimitar",
-            target="Fighter (D4)"
+            target="Fighter (E4)"
         )
 
         valid, error = validate_move(response, multiattack_state, "goblin_0")

@@ -96,6 +96,19 @@ class TestAttackRollWithAdvantageState:
         assert result.total == 7
         assert not result.is_hit
 
+    @patch('src.domain.rules.roll_d20')
+    def test_cover_bonus_increases_effective_ac(self, mock_roll_d20):
+        """Test that cover_bonus is added to AC for hit determination."""
+        mock_roll_d20.return_value = (10, "1d20 (10)")
+        # 10 + 5 = 15. Without cover: AC 15 -> hit. With cover_bonus=2: effective AC 17 -> miss.
+        result_no_cover = make_attack_roll(5, 15, AdvantageState.NORMAL, cover_bonus=0)
+        result_half_cover = make_attack_roll(5, 15, AdvantageState.NORMAL, cover_bonus=2)
+        assert result_no_cover.total == 15
+        assert result_no_cover.is_hit
+        assert result_half_cover.total == 15
+        assert result_half_cover.ac == 17
+        assert not result_half_cover.is_hit
+
 
 class TestDamageRolling:
     """Test damage rolling with d20 library integration."""

@@ -104,3 +104,36 @@ def move_toward(a: str, b: str, squares: int) -> str:
         squares -= 1
 
     return to_coordinate(ax, ay)
+
+
+def move_away_from(a: str, b: str, squares: int) -> str:
+    """Move from position a away from position b up to specified squares.
+
+    Args:
+        a: Starting position (e.g. our creature)
+        b: Position to flee from (e.g. nearest enemy)
+        squares: Maximum movement in squares
+
+    Returns:
+        New position after moving away from target
+    """
+    ax, ay = parse_coordinate(a)
+    bx, by = parse_coordinate(b)
+    for _ in range(squares):
+        # One step in the direction opposite to b. If we are exactly on top of b,
+        # take an arbitrary step \"away\" (up the board) so we don't get stuck.
+        dx = bx - ax
+        dy = by - ay
+        if dx > 0:
+            ax -= 1
+        elif dx < 0:
+            ax += 1
+        elif dy > 0:
+            ay -= 1
+        elif dy < 0:
+            ay += 1
+        else:
+            ay += 1  # already on top of b; move \"away\" arbitrarily
+        ax = max(0, ax)
+        ay = max(0, ay)
+    return to_coordinate(ax, ay)

@@ -78,6 +78,15 @@ def test_load_creature_fighter():
     assert creature.position == "B2"
 
 
+def test_load_creature_bio_from_body():
+    """Test that body content after frontmatter is loaded as creature bio."""
+    filepath = Path("data/creatures/fighter.md")
+    _, creature = load_creature(filepath)
+    assert creature.bio is not None
+    assert "sturdy" in creature.bio
+    assert "fighter" in creature.bio
+
+
 def test_load_creature_fighter_multiattack():
     """Test that fighter Multiattack is parsed correctly."""
     filepath = Path("data/creatures/fighter.md")

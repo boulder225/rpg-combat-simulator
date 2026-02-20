@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-02-07)
 
 **Core value:** A DM can sit down, define creatures in markdown files, run batch simulations, and know within 8 minutes whether an encounter is balanced, deadly, or a TPK — with enough tactical intelligence that the results feel realistic.
 
-**Current focus:** Phase 2 complete. Ready for Phase 3 - LLM Tactical Agents.
+**Current focus:** Phase 4 planned. Ready to execute Phase 4 - Terminal UI & Advanced Combat.
 
 ## Current Position
 
-Phase: 3 of 5 (LLM Tactical Agents) — COMPLETE
-Plan: 3 of 3 in phase 3
-Status: Phase 3 verified and complete (6/6 success criteria passed)
-Last activity: 2026-02-08 — Phase 3 verified and complete
+Phase: 4 of 5 (Terminal UI & Advanced Combat) — PLANNED (0/6 executed)
+Plan: 0 of 6 in phase 4
+Status: Phase 4 plans created (04-01 through 04-06); not yet executed
+Last activity: 2026-02-08 — Phase 4 planning complete
 
-Progress: [██████████] 100% (Phase 3)
+Progress: [░░░░░░░░░░] 0% (Phase 4)
 Overall:  [██████░░░░] 60% (3/5 phases)
 
 ## Performance Metrics

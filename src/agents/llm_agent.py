@@ -1,7 +1,7 @@
 """LLM Agent orchestrator with circuit breaker and heuristic fallback."""
 
 import logging
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from tenacity import RetryError, retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 from src.agents.base import BaseAgent
 from src.agents.heuristic import HeuristicAgent
 from src.agents.llm_parser import parse_llm_output
@@ -64,7 +64,7 @@ class LLMAgent(BaseAgent):
             messages=messages,
             model=self.model,
             temperature=0.7,
-            max_tokens=300
+            max_tokens=600
         )
     
     def choose_action(self, state: CombatState, creature_id: str) -> "AgentAction":
@@ -112,11 +112,29 @@ class LLMAgent(BaseAgent):
             return action
             
         except Exception as e:
-            logger.warning(f"LLM agent failed: {e}")
+            msg = _format_llm_error(e)
+            logger.warning(f"LLM agent failed: {msg}")
             self._consecutive_failures += 1
-            
+
             if self._consecutive_failures >= self.circuit_breaker_threshold:
                 self._circuit_open = True
                 logger.warning("Circuit breaker opened: falling back to heuristic for remaining combat")
-            
+
             return self.fallback.choose_action(state, creature_id)
+
+
+def _format_llm_error(e: Exception) -> str:
+    """Turn LLM/provider errors into a short, actionable message."""
+    if isinstance(e, RetryError) and e.last_attempt is not None:
+        try:
+            exc = e.last_attempt.exception()
+        except Exception:
+            exc = None
+        if exc is not None:
+            e = exc
+    text = str(e)
+    if not text or text.strip() == "":
+        text = type(e).__name__
+    if isinstance(e, (ConnectionError, OSError)):
+        return f"{text}. Is the LLM service running? (Ollama: ollama serve; then ollama pull <model>)"
+    return text

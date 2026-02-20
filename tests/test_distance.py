@@ -7,6 +7,7 @@ from src.domain.distance import (
     manhattan_distance,
     distance_in_feet,
     move_toward,
+    move_away_from,
 )
 
 
@@ -143,3 +144,16 @@ def test_move_toward_diagonal():
     result = move_toward("A1", "C3", 4)
     # Should reach C3 (2 right, 2 up = 4 Manhattan distance)
     assert result == "C3"
+
+
+def test_move_away_from_basic():
+    """Test move_away_from increases distance to target."""
+    # From C3, away from B2: should move toward (4,4) = D5 direction
+    result = move_away_from("C3", "B2", 2)
+    assert manhattan_distance(result, "B2") > manhattan_distance("C3", "B2")
+
+
+def test_move_away_from_full_squares():
+    """Test move_away_from with enough squares to move."""
+    result = move_away_from("E5", "E6", 3)  # enemy south, we move north
+    assert result == "E2"  # 3 squares north from E5

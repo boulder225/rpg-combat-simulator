@@ -6,8 +6,11 @@ increases sample size until target confidence interval precision is achieved.
 
 import random
 from dataclasses import dataclass
-from typing import Tuple, Optional
+from typing import Tuple, Optional, TYPE_CHECKING
 from src.simulation.simulator import run_combat
+
+if TYPE_CHECKING:
+    from src.domain.terrain import Terrain
 from src.analysis.statistics import calculate_win_rate_ci, progressive_sampling_stopping_criteria
 from src.simulation.victory import get_winner
 
@@ -89,7 +92,10 @@ class MonteCarloSimulator:
         agent,
         seed: Optional[int] = None,
         max_rounds: int = 100,
-        verbose: bool = False
+        verbose: bool = False,
+        terrain: Optional["Terrain"] = None,
+        on_progress=None,
+        lang: str = "en",
     ) -> SimulationResults:
         """Run Monte Carlo simulation with progressive sampling.
 
@@ -103,6 +109,7 @@ class MonteCarloSimulator:
             seed: Random seed for reproducibility (None for random)
             max_rounds: Maximum rounds per combat
             verbose: Whether to print logs (False recommended for batch)
+            lang: Language for combat log ("en", "it")
 
         Returns:
             SimulationResults with wins, total_runs, win_rate, CI, and detailed results
@@ -126,7 +133,9 @@ class MonteCarloSimulator:
                 agent,
                 seed=None,  # Let random state flow through
                 max_rounds=max_rounds,
-                verbose=verbose
+                verbose=verbose,
+                terrain=terrain,
+                lang=lang,
             )
 
             # Track results
@@ -136,6 +145,14 @@ class MonteCarloSimulator:
             if winner == "party":
                 wins += 1
             total_runs += 1
+
+            # Progress callback after each run
+            if on_progress is not None:
+                try:
+                    on_progress(total_runs, self.max_runs, wins)
+                except Exception:
+                    # Progress callbacks must not break the simulation loop
+                    pass
 
         # Phase 2: Progressive sampling with CI checks
         while total_runs < self.max_runs:
@@ -160,7 +177,9 @@ class MonteCarloSimulator:
                     agent,
                     seed=None,
                     max_rounds=max_rounds,
-                    verbose=verbose
+                    verbose=verbose,
+                    terrain=terrain,
+                    lang=lang,
                 )
 
                 # Track results
@@ -170,6 +189,12 @@ class MonteCarloSimulator:
                 if winner == "party":
                     wins += 1
                 total_runs += 1
+
+                if on_progress is not None:
+                    try:
+                        on_progress(total_runs, self.max_runs, wins)
+                    except Exception:
+                        pass
 
         # Calculate final statistics
         win_rate = wins / total_runs

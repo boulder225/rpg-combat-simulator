@@ -139,6 +139,13 @@ class CreatureLoader:
         if name.endswith(".md"):
             name = name[:-3]
 
+        # Simple alias mapping for common SRD names where the CLI name is shorter / ambiguous.
+        # For example, \"bear\" -> \"Brown Bear\" in the SRD.
+        alias_map = {
+            "bear": "Brown Bear",
+        }
+        api_name = alias_map.get(name.lower(), name)
+
         # Priority 1: Check local creatures directory
         local_path = self.cache_dir / f"{name}.md"
         if local_path.exists():
@@ -165,7 +172,7 @@ class CreatureLoader:
 
         # Priority 3: Fetch from SRD API
         try:
-            raw_data = self.srd_api.fetch_monster(name)
+            raw_data = self.srd_api.fetch_monster(api_name)
             srd_creature = SRDCreature(**raw_data)
             creature = srd_creature.to_creature(team=team, position=position)
 

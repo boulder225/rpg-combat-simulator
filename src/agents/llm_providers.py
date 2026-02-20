@@ -1,4 +1,4 @@
-"""LLM provider abstraction for Ollama and OpenRouter."""
+"""LLM provider abstraction for Ollama, OpenAI, and OpenRouter."""
 
 from abc import ABC, abstractmethod
 import ollama
@@ -73,6 +73,39 @@ class OllamaProvider(LLMProvider):
             options={"temperature": temperature, "num_predict": max_tokens},
         )
         return response["message"]["content"]
+
+
+class OpenAIProvider(LLMProvider):
+    """Synchronous OpenAI-compatible provider (OpenAI API, Azure, or custom base URL)."""
+
+    def __init__(
+        self, api_key: str, base_url: str = "https://api.openai.com/v1"
+    ):
+        """Initialize OpenAI provider.
+
+        Args:
+            api_key: API key (OPENAI_API_KEY for OpenAI or compatible endpoints)
+            base_url: API base URL (default: https://api.openai.com/v1)
+        """
+        self.api_key = api_key
+        self.base_url = base_url
+
+    def chat_completion(
+        self,
+        messages: list[dict],
+        model: str,
+        temperature: float = 0.7,
+        max_tokens: int = 300,
+    ) -> str:
+        """Send messages to OpenAI (or compatible API) and return text response."""
+        client = openai.OpenAI(base_url=self.base_url, api_key=self.api_key)
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            temperature=temperature,
+            max_tokens=max_tokens,
+        )
+        return response.choices[0].message.content
 
 
 class OpenRouterProvider(LLMProvider):

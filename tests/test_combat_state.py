@@ -117,6 +117,44 @@ def test_next_turn_new_round():
     assert new_state.round == 2
 
 
+def test_reaction_used_default():
+    """CombatState has reaction_used as empty frozenset by default."""
+    c1 = Creature(name="Fighter", ac=18, hp_max=44, team="party", creature_id="fighter_0")
+    state = CombatState(creatures={"fighter_0": c1}, initiative_order=["fighter_0"])
+    assert state.reaction_used == frozenset()
+
+
+def test_set_reaction_used():
+    """set_reaction_used adds creature and returns new state."""
+    c1 = Creature(name="Fighter", ac=18, hp_max=44, team="party", creature_id="fighter_0")
+    c2 = Creature(name="Goblin", ac=15, hp_max=7, team="enemies", creature_id="goblin_0")
+    state = CombatState(
+        creatures={"fighter_0": c1, "goblin_0": c2},
+        initiative_order=["fighter_0", "goblin_0"],
+    )
+    s1 = state.set_reaction_used("goblin_0")
+    assert s1.reaction_used == frozenset({"goblin_0"})
+    assert state.reaction_used == frozenset()
+    s2 = s1.set_reaction_used("fighter_0")
+    assert s2.reaction_used == frozenset({"goblin_0", "fighter_0"})
+
+
+def test_next_turn_new_round_resets_reaction_used():
+    """When advancing to a new round, reaction_used is reset."""
+    c1 = Creature(name="Fighter", ac=18, hp_max=44, team="party", creature_id="fighter_0")
+    c2 = Creature(name="Goblin", ac=15, hp_max=7, team="enemies", creature_id="goblin_0")
+    state = CombatState(
+        creatures={"fighter_0": c1, "goblin_0": c2},
+        initiative_order=["fighter_0", "goblin_0"],
+        current_turn=1,
+        round=1,
+        reaction_used=frozenset({"goblin_0"}),
+    )
+    new_state = state.next_turn()
+    assert new_state.round == 2
+    assert new_state.reaction_used == frozenset()
+
+
 def test_end_combat():
     """Test ending combat."""
     c1 = Creature(name="Fighter", ac=18, hp_max=44, team="party", creature_id="fighter_0")

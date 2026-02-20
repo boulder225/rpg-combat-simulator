@@ -26,6 +26,9 @@ class BatchArgs:
         provider: LLM provider (only used with --agent llm)
         model: LLM model name (None uses default based on provider)
         role: Creature role archetype for LLM tactical behavior
+        ollama_host: Ollama server URL (overrides OLLAMA_HOST env; only used with --agent llm --provider ollama)
+        openrouter_url: OpenRouter API base URL (overrides OPENROUTER_BASE_URL env; only used with --provider openrouter)
+        openai_url: OpenAI API base URL (overrides OPENAI_BASE_URL env; only used with --provider openai)
     """
     party: List[str]
     enemies: List[str]
@@ -36,6 +39,12 @@ class BatchArgs:
     provider: str
     model: Optional[str]
     role: str
+    terrain: Optional[str] = None
+    tui: bool = False
+    ollama_host: Optional[str] = None
+    openrouter_url: Optional[str] = None
+    openai_url: Optional[str] = None
+    lang: str = "en"
 
 
 def parse_batch_args(args=None) -> BatchArgs:
@@ -81,6 +90,14 @@ def parse_batch_args(args=None) -> BatchArgs:
 
    # With role archetype
    python run.py --party fighter.md --enemies goblin --agent llm --role striker
+
+   # Remote Ollama (env or flag)
+   OLLAMA_HOST=http://remote:11434 python run.py --party fighter.md --enemies goblin --agent llm
+   python run.py --party fighter.md --enemies goblin --agent llm --ollama-host http://remote:11434
+
+   # OpenRouter with custom URL (env or flag)
+   OPENROUTER_BASE_URL=https://openrouter.ai/api/v1 python run.py --agent llm --provider openrouter ...
+   python run.py --agent llm --provider openrouter --openrouter-url https://openrouter.ai/api/v1 ...
 
  Creature resolution:
    - fighter.md    → Load from data/creatures/fighter.md (local file)
@@ -138,7 +155,7 @@ def parse_batch_args(args=None) -> BatchArgs:
 
     parser.add_argument(
         "--provider",
-        choices=["ollama", "openrouter"],
+        choices=["ollama", "openai", "openrouter"],
         default="ollama",
         help="LLM provider (only used with --agent llm)"
     )
@@ -147,7 +164,7 @@ def parse_batch_args(args=None) -> BatchArgs:
         "--model",
         type=str,
         default=None,
-        help="LLM model name (default: qwen2.5:7b-instruct for ollama, qwen/qwen2.5-coder-7b-instruct for openrouter)"
+        help="LLM model name (default by provider: ollama qwen2.5:7b-instruct, openai gpt-4o-mini, openrouter qwen/qwen-2.5-7b-instruct)"
     )
 
     parser.add_argument(
@@ -157,17 +174,65 @@ def parse_batch_args(args=None) -> BatchArgs:
         help="Creature role archetype for LLM tactical behavior"
     )
 
+    parser.add_argument(
+        "--ollama-host",
+        type=str,
+        default=None,
+        metavar="URL",
+        help="Ollama server URL (default: OLLAMA_HOST env or http://localhost:11434). Use for remote Ollama."
+    )
+
+    parser.add_argument(
+        "--openrouter-url",
+        type=str,
+        default=None,
+        metavar="URL",
+        help="OpenRouter API base URL (default: OPENROUTER_BASE_URL env or https://openrouter.ai/api/v1)."
+    )
+
+    parser.add_argument(
+        "--openai-url",
+        type=str,
+        default=None,
+        metavar="URL",
+        help="OpenAI API base URL (default: OPENAI_BASE_URL env or https://api.openai.com/v1)."
+    )
+
+    parser.add_argument(
+        "--terrain",
+        type=str,
+        default=None,
+        metavar="NAME",
+        help="Terrain name (load from data/terrain/NAME.md) for cover"
+    )
+
+    parser.add_argument(
+        "--tui",
+        action="store_true",
+        help="Launch Textual TUI for batch simulations (requires --runs)",
+    )
+
+    parser.add_argument(
+        "--lang",
+        type=str,
+        choices=["en", "it"],
+        default="en",
+        help="Language for strategy evolution and round labels (en=English, it=Italian)",
+    )
+
     parsed = parser.parse_args(args)
 
     # Validate runs parameter
     if parsed.runs is not None and parsed.runs <= 0:
         parser.error("--runs must be a positive integer")
 
-    # Validate OpenRouter API key if needed
-    if parsed.agent == "llm" and parsed.provider == "openrouter":
+    # Validate API keys if needed
+    if parsed.agent == "llm":
         import os
-        if not os.environ.get("OPENROUTER_API_KEY"):
+        if parsed.provider == "openrouter" and not os.environ.get("OPENROUTER_API_KEY"):
             print("Warning: OPENROUTER_API_KEY environment variable not set. OpenRouter provider will fail.")
+        if parsed.provider == "openai" and not os.environ.get("OPENAI_API_KEY"):
+            print("Warning: OPENAI_API_KEY environment variable not set. OpenAI provider will fail.")
 
     return BatchArgs(
         party=parsed.party,
@@ -178,7 +243,13 @@ def parse_batch_args(args=None) -> BatchArgs:
         agent=parsed.agent,
         provider=parsed.provider,
         model=parsed.model,
-        role=parsed.role
+        role=parsed.role,
+        terrain=parsed.terrain,
+        tui=parsed.tui,
+        ollama_host=parsed.ollama_host,
+        openrouter_url=parsed.openrouter_url,
+        openai_url=parsed.openai_url,
+        lang=parsed.lang,
     )
 
     parser.add_argument(
@@ -230,5 +301,6 @@ def parse_batch_args(args=None) -> BatchArgs:
         agent=parsed.agent,
         provider=parsed.provider,
         model=parsed.model,
-        role=parsed.role
+        role=parsed.role,
+        terrain=parsed.terrain
     )

@@ -4,6 +4,31 @@
   "parallelization": true,
   "commit_docs": true,
   "model_profile": "balanced",
+  "profiles": {
+    "active_profile": "balanced",
+    "presets": {
+      "quality": {
+        "planning": "openrouter/qwen-max",
+        "execution": "openrouter/qwen-max",
+        "verification": "openrouter/qwen-max"
+      },
+      "balanced": {
+        "planning": "openrouter/qwen-max",
+        "execution": "openrouter/qwen-max",
+        "verification": "openrouter/qwen-max"
+      },
+      "budget": {
+        "planning": "openrouter/qwen-max",
+        "execution": "openrouter/qwen-max",
+        "verification": "openrouter/qwen-max"
+      }
+    },
+    "custom_overrides": {
+      "quality": {},
+      "balanced": {},
+      "budget": {}
+    }
+  },
   "workflow": {
     "research": true,
     "plan_check": true,

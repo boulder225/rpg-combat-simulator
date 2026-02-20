@@ -1,0 +1,19 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "gsd-planner": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-plan-checker": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-phase-researcher": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-roadmapper": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-project-researcher": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-research-synthesizer": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-codebase-mapper": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-executor": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-debugger": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-verifier": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-integration-checker": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-set-profile": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-settings": { "model": "openrouter/qwen/qwen-max" },
+    "gsd-set-model": { "model": "openrouter/qwen/qwen-max" }
+  }
+}

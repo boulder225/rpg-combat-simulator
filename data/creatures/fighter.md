@@ -1,5 +1,6 @@
 ---
 name: Fighter
+level: 5
 ac: 18
 hp_max: 44
 speed: 30

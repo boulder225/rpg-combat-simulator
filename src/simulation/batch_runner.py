@@ -8,8 +8,11 @@ Manages execution of Monte Carlo simulations with:
 """
 
 from dataclasses import dataclass, field
-from typing import Optional, Dict, List
+from typing import Optional, Dict, List, TYPE_CHECKING
 from collections import defaultdict
+
+if TYPE_CHECKING:
+    from src.domain.terrain import Terrain
 
 
 @dataclass
@@ -50,6 +53,8 @@ class BatchResults:
     avg_combat_duration_losses: float
     tpk_count: int
     final_states: list
+    last_logger: object | None = None
+    combined_log: str | None = None
 
 
 class BatchRunner:
@@ -77,7 +82,10 @@ class BatchRunner:
         creatures: dict,
         agent,
         seed: Optional[int] = None,
-        max_rounds: int = 100
+        max_rounds: int = 100,
+        terrain: Optional["Terrain"] = None,
+        on_progress=None,
+        lang: str = "en",
     ) -> BatchResults:
         """Execute batch simulation with comprehensive result collection.
 
@@ -112,7 +120,10 @@ class BatchRunner:
                 agent=agent,
                 seed=seed,
                 max_rounds=max_rounds,
-                verbose=False  # Disable per-combat logs for batch
+                verbose=False,  # Disable per-combat logs for batch
+                terrain=terrain,
+                on_progress=on_progress,
+                lang=lang,
             )
         except Exception as e:
             raise ValueError(f"Simulation failed: {e}") from e
@@ -144,6 +155,16 @@ class BatchRunner:
             print(f"  Losses: {duration_losses:.1f} rounds avg")
             print(f"  TPKs: {tpk_count} ({tpk_count/sim_results.total_runs:.1%})")
 
+        last_logger = sim_results.loggers[-1] if sim_results.loggers else None
+
+        # Build a combined log of all runs for TUI viewing
+        combined_log_parts: list[str] = []
+        for idx, logger in enumerate(sim_results.loggers, start=1):
+            combined_log_parts.append(f"=== Run {idx} ===")
+            combined_log_parts.append(logger.get_full_log())
+            combined_log_parts.append("")  # blank line between runs
+        combined_log = "\n".join(combined_log_parts).rstrip() if combined_log_parts else None
+
         return BatchResults(
             wins=sim_results.wins,
             total_runs=sim_results.total_runs,
@@ -153,7 +174,9 @@ class BatchRunner:
             avg_combat_duration_wins=duration_wins,
             avg_combat_duration_losses=duration_losses,
             tpk_count=tpk_count,
-            final_states=sim_results.final_states
+            final_states=sim_results.final_states,
+            last_logger=last_logger,
+            combined_log=combined_log,
         )
 
     def _extract_damage_breakdown(

@@ -33,21 +33,20 @@ class AttackResult:
             self.description = f"Miss. (rolled {natural_roll}+{bonus}={self.total} vs AC {ac})"
 
 
-def make_attack_roll(bonus, ac, advantage=None):
+def make_attack_roll(bonus, ac, advantage=None, cover_bonus=0):
     """
-    Make a d20 attack roll with advantage/disadvantage.
+    Make a d20 attack roll with advantage/disadvantage and optional cover.
 
     Args:
         bonus: Attack bonus to add to the roll
-        ac: Target's Armor Class
+        ac: Target's base Armor Class
         advantage: AdvantageState, or None/True/False for backward compatibility
-            - AdvantageState.ADVANTAGE or True: advantage
-            - AdvantageState.DISADVANTAGE or False: disadvantage
-            - AdvantageState.NORMAL or None: normal roll
+        cover_bonus: Cover bonus to add to target AC (0, 2 for half, 5 for three-quarters)
 
     Returns:
-        AttackResult with hit/miss, critical, and description
+        AttackResult with hit/miss vs effective AC (ac + cover_bonus)
     """
+    effective_ac = ac + cover_bonus
     # Handle backward compatibility with True/False/None
     if advantage is True:
         advantage_state = AdvantageState.ADVANTAGE
@@ -60,15 +59,11 @@ def make_attack_roll(bonus, ac, advantage=None):
     else:
         advantage_state = AdvantageState.NORMAL
 
-    # Use dice module for d20 roll
     natural_roll, _ = roll_d20(advantage_state)
-
-    # Natural 20 is always a critical hit
     is_critical = (natural_roll == 20)
-    # Natural 1 is always a miss
     is_auto_miss = (natural_roll == 1)
 
-    return AttackResult(natural_roll, bonus, ac, is_critical, is_auto_miss)
+    return AttackResult(natural_roll, bonus, effective_ac, is_critical, is_auto_miss)
 
 
 def parse_dice_expression(dice_str):
@@ -293,22 +288,19 @@ class SavingThrowResult:
             self.description = f"Failed. (rolled {roll}+{modifier}={self.total} vs DC {dc})"
 
 
-def make_saving_throw(ability_modifier, dc, advantage=None):
+def make_saving_throw(ability_modifier, dc, advantage=None, cover_bonus=0):
     """
-    Make a saving throw.
+    Make a saving throw. Cover adds to the save result (half +2, three-quarters +5).
 
     Args:
         ability_modifier: Ability modifier (e.g., Dex mod for Dex save)
         dc: Difficulty Class
         advantage: AdvantageState, or None/True/False for backward compatibility
-            - AdvantageState.ADVANTAGE or True: advantage
-            - AdvantageState.DISADVANTAGE or False: disadvantage
-            - AdvantageState.NORMAL or None: normal roll
+        cover_bonus: Bonus added to save roll (0, 2 for half cover, 5 for three-quarters)
 
     Returns:
         SavingThrowResult with success/failure and description
     """
-    # Handle backward compatibility with True/False/None
     if advantage is True:
         advantage_state = AdvantageState.ADVANTAGE
     elif advantage is False:
@@ -320,10 +312,8 @@ def make_saving_throw(ability_modifier, dc, advantage=None):
     else:
         advantage_state = AdvantageState.NORMAL
 
-    # Use dice module for d20 roll
     roll, _ = roll_d20(advantage_state)
-
-    total = roll + ability_modifier
+    total = roll + ability_modifier + cover_bonus
     is_success = total >= dc
 
-    return SavingThrowResult(roll, ability_modifier, dc, is_success)
+    return SavingThrowResult(roll, ability_modifier + cover_bonus, dc, is_success)
